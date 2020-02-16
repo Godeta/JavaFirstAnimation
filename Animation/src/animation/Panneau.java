@@ -50,6 +50,8 @@ public class Panneau extends JPanel {
     text(g);
     
     degrade(g);
+    
+    shizuo(g);
   }               
 
   //rectangle, cercle et autre...
@@ -155,4 +157,16 @@ public class Panneau extends JPanel {
     g2d.fillRect(100, this.getHeight()/2+100, 50, 70-posX);  
   }
   
+  //personnage Shizuo
+  private void shizuo(Graphics g) {
+	  try {
+	      Image shi1 = ImageIO.read(new File("Images/Shizuo/HiwStance.png"));
+	           
+	      //image : drawImage(Image img, int x, int y, int width, int height, Observer obs)
+	      g.drawImage(shi1, 0+posX, this.getHeight()/3+40,600,500, this);
+
+	    } catch (IOException e) {
+	      e.printStackTrace();
+	    }  
+  }
 }

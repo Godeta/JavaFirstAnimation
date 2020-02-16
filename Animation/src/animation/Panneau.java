@@ -22,7 +22,7 @@ public class Panneau extends JPanel {
 	  private int posX = -50;
 	  private int posY = -50;
 	 //Source -> generate getters and setters
-	  public int getPosX() {
+	  public int getPosX() { //truc
 			return posX;
 		}
 

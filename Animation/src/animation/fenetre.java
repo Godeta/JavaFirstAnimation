@@ -2,12 +2,18 @@ package animation;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JLabel;
+
+import java.awt.BorderLayout;
 import java.awt.Color;
  
 public class fenetre extends JFrame { //fille de JFrame qui récupère de quoi faire une fenêtre
 
     private Panneau pan = new Panneau();
 	private boolean run = true;
+    private JLabel label = new JLabel();
+    private ObjKeyListener truc = new ObjKeyListener(label);
+	
 	
 	  public boolean isRun() {
 		return run;
@@ -46,6 +52,7 @@ public class fenetre extends JFrame { //fille de JFrame qui récupère de quoi fai
     
     //On prévient notre JFrame que notre Panneau créé avec JPanel sera son content pane
     this.setContentPane(pan);
+    listen();
     mouvement();
   }
 
@@ -57,17 +64,34 @@ public class fenetre extends JFrame { //fille de JFrame qui récupère de quoi fai
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);             
     this.setVisible(true);
     this.setContentPane(pan);
+    
+    listen();
     mouvement();
+  }
+  
+  private void listen() {
+	  //label et truc initialisés dans la classe !
+	    // ajout d'un seul composant dans cette fenêtre : un JLabel
+	    
+	    add(label, BorderLayout.CENTER);
+	     
+	    // ajoute un écouteur d'événements personnalisé à la fenêtre
+	    
+	    addKeyListener(truc);
   }
   
   //rappelle la fonction d'affichage dans Panneau, sleep plus ou moins grand permet de gérer un peu les fps 
   private void mouvement(){
 	    while (run == true){
-	      int x = pan.getPosX(), y = pan.getPosY();
+	      int x = pan.getPosX(), y = pan.getPosY(), shiX = pan.getShiX();
 	      x++;
 	      y++;
+
+		    shiX = truc.getShiX();
+	      
 	      pan.setPosX(x);
 	      pan.setPosY(y);
+	      pan.setShiX(shiX);
 	      pan.repaint();  
 	      try {
 	        Thread.sleep(10);

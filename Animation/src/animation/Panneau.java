@@ -21,7 +21,10 @@ public class Panneau extends JPanel {
 
 	  private int posX = -50;
 	  private int posY = -50;
-	 //Source -> generate getters and setters
+	  private int shiX = 0;
+	  private int bug =0;
+
+	//Source -> generate getters and setters
 	  public int getPosX() { //truc
 			return posX;
 		}
@@ -36,6 +39,14 @@ public class Panneau extends JPanel {
 
 		public void setPosY(int posY) {
 			this.posY = posY;
+		}
+		
+		 public int getShiX() {
+				return shiX;
+		}
+
+			public void setShiX(int shiX) {
+				this.shiX = shiX;
 		}
 
 		//affichage
@@ -92,7 +103,7 @@ public class Panneau extends JPanel {
   
   //text en haut
   private void text (Graphics g) {
-	  g.setColor(Color.black);
+	  g.setColor(Color.white);
 	    //texte
 	    Font font = new Font("Verdana", Font.BOLD, 20);
 	    g.drawString("Un texte sans font et tout petit !", 40, this.getHeight()-20);
@@ -109,7 +120,7 @@ public class Panneau extends JPanel {
 	      Image img = ImageIO.read(new File("Images/three_cool_fight_background.gif"));
 	           
 	      //Pour une image de fond, prend toute la taille de la fenêtre
-	      g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), this);
+	      g.drawImage(img, bug*posX, bug*posY, this.getWidth(), this.getHeight(), this);
 	     
 	    	
 	      /*Image icon = new ImageIcon(getClass().getResource("/Images/three_cool_fight_background.gif")).getImage();
@@ -163,7 +174,7 @@ public class Panneau extends JPanel {
 	      Image shi1 = ImageIO.read(new File("Images/Shizuo/HiwStance.png"));
 	           
 	      //image : drawImage(Image img, int x, int y, int width, int height, Observer obs)
-	      g.drawImage(shi1, 0+posX, this.getHeight()/3+40,600,500, this);
+	      g.drawImage(shi1, 0+shiX, this.getHeight()/3+40,600,500, this);
 
 	    } catch (IOException e) {
 	      e.printStackTrace();

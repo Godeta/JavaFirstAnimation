@@ -13,6 +13,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import javax.swing.JPanel;
+
  
 @SuppressWarnings("serial") //enlève le warning de serialisation
 public class Panneau extends JPanel {
@@ -20,7 +21,7 @@ public class Panneau extends JPanel {
 	  private int posX = -50;
 	  private int posY = -50;
 	  private int shiX = 0;
-	  private int bug =0;
+	  private int bug =0; //pour faire des réactions marrantes avec le fond
 	  private boolean once = true; //pour n'effectuer qu'une fois l'initialisation
 	  private boolean side = true; //pour choisir dans quel sens il va, true = à droite et false = gauche
 	  private int i =0; //pour parcourir le tableau
@@ -101,7 +102,12 @@ public class Panneau extends JPanel {
     //if (animation >10) {animation =0;}
     
     //g.setBackground(Color.ORANGE);
+    if (once == true) {
     IniImages();
+    IniSound();
+    once = false;
+    }
+    
     background(g);
     //figures(g);
     text(g);
@@ -230,6 +236,16 @@ public class Panneau extends JPanel {
 	        g.drawRect(10+posX, 10, 50, 60);
 	        g.setColor(Color.black);
 	        g.fillRect(0, 0, this.getWidth(), this.getHeight() );
+	        
+	        Font police = new Font("Comic-sans-ms", Font.BOLD,30);
+		    g.setFont(police);
+		    g.setColor(Color.white);
+		    g.drawString("Flèche de droite et de gauche pour déplacement latéraux.",this.getWidth()/4, this.getHeight()/8);
+		    g.drawString("Presser K pour un kick et L pour un coup de lampadaire !",this.getWidth()/4, this.getHeight()/8+50);
+		    g.drawString("Presser P pour provoquer et relacher M pour revenir au début de la map + passer en mode bizarre",this.getWidth()/10, this.getHeight()/8+100);
+		    g.drawString("En mode bizarre : t pour augmenter l'acceleration et r pour la ralentir.",this.getWidth()/8, this.getHeight()/8+150);
+		    g.drawString("Presser C pour voir les contrôles et U pour quitter ce mode.",this.getWidth()/4, this.getHeight()/8+200);
+		    g.drawString("U permet de revenir en mode normal (donc plus de mode bizarre ou autre)",this.getWidth()/6, this.getHeight()/8+250);
 	  }
 	  
 	  
@@ -325,7 +341,7 @@ public class Panneau extends JPanel {
   
   //initialisation des images
   private void IniImages() {
-	  if (once == true)
+	  
 	  try {
 		  //stand et déplacements
 		  tabImg[0] = ImageIO.read(new File("Images/Shizuo/HiwStance.png"));
@@ -364,8 +380,25 @@ public class Panneau extends JPanel {
 	  catch (IOException e) {
       e.printStackTrace();
     }  
-	  once = false;
+	  
   }
+  
+  private void IniSound() {
+	  //déclaration audio
+	  //filePath = "Sounds/party_started.wav"; 
+		try {SimpleAudioPlayer audioPlayer = 
+						new SimpleAudioPlayer("Sounds/party_started.wav"); 
+		audioPlayer.play();
+		}
+		catch (Exception ex) 
+		{ 
+			System.out.println("Error with playing sound."); 
+			ex.printStackTrace(); 
+		
+		} 
+		
+  }
+
   
 
 }

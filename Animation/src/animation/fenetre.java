@@ -6,8 +6,12 @@ import javax.swing.JLabel;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
- 
-public class fenetre extends JFrame { //fille de JFrame qui récupère de quoi faire une fenêtre
+
+import java.io.File;
+//pour le son
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip; class fenetre extends JFrame { //fille de JFrame qui récupère de quoi faire une fenêtre
 
     private Panneau pan = new Panneau();
 	private boolean run = true;
@@ -114,4 +118,6 @@ public class fenetre extends JFrame { //fille de JFrame qui récupère de quoi fai
 	    }
 	  } 
 
+
+  
 }

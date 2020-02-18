@@ -83,15 +83,16 @@ public class fenetre extends JFrame { //fille de JFrame qui récupère de quoi fai
   //rappelle la fonction d'affichage dans Panneau, sleep plus ou moins grand permet de gérer un peu les fps 
   private void mouvement(){
 	    while (run == true){
-	      int x = pan.getPosX(), y = pan.getPosY(), shiX = pan.getShiX();
+	      int x = pan.getPosX(), y = pan.getPosY(), shiX = pan.getShiX(), vitS = pan.getVit();
 	      x++;
 	      y++;
-
-		    shiX = truc.getShiX();
+	      vitS =truc.getVitS();
+		  shiX = truc.getShiX();
 	      
 	      pan.setPosX(x);
 	      pan.setPosY(y);
 	      pan.setShiX(shiX);
+	      pan.setVit(vitS);
 	      pan.repaint();  
 	      try {
 	        Thread.sleep(10);

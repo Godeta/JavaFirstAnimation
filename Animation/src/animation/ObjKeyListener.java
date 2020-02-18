@@ -6,8 +6,17 @@ import javax.swing.JLabel;
 public class ObjKeyListener implements KeyListener {
 	  private final JLabel label;
 	  private int shiX =0;
+	  private int vitS =0;
 	     
-	    public int getShiX() {
+	    public int getVitS() {
+		return vitS;
+	}
+
+	public void setVitS(int vitS) {
+		this.vitS = vitS;
+	}
+
+		public int getShiX() {
 		return shiX;
 	}
 
@@ -21,21 +30,33 @@ public class ObjKeyListener implements KeyListener {
 	 
 	    public void keyPressed(KeyEvent e) {
 	        label.setText("Touche pressée : " + e.getKeyCode() + 
-	                " (" + e.getKeyChar() + ")" +"shix vaut :" +shiX);
+	                " (" + e.getKeyChar() + ")" +"shix vaut :" +shiX );
 	                if (e.getKeyCode()==65) {
 	                    System.out.println("Vous avez appuyé sur a !!!");
 	                }
-	                if (e.getKeyCode()==39) { //flèche de droite
-	                	shiX+=10;
+	                else if (e.getKeyCode()==39) { //flèche de droite
+	                	vitS+=1;
+	                	shiX+=10+vitS;
 	                }
-	                if (e.getKeyCode()==37) { //flèche de droite
-	                	shiX-=10;
+	                else if (e.getKeyCode()==37) { //flèche de droite
+	                	vitS+=1;
+	                	shiX-=10+vitS;
+	                	
 	                }
+	                else { vitS=0;}
 	    }
 	 
 	    public void keyReleased(KeyEvent e) {
 	        label.setText("Touche relâchée : " + e.getKeyCode() +
-	                " (" + e.getKeyChar() + ")");
+	                " (" + e.getKeyChar() + ")" +"VitS vaut : "+ vitS);
+	        
+	        //lorsque l'on relache la touche la vitesse redevient 0
+	        if (e.getKeyCode()==39) { //flèche de droite
+            	vitS =0;
+            }
+            else if (e.getKeyCode()==37) { //flèche de droite
+            	vitS =0;
+            }
 	    }
 	 
 	    public void keyTyped(KeyEvent e) {

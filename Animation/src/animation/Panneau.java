@@ -23,11 +23,25 @@ public class Panneau extends JPanel {
 	  private int posY = -50;
 	  private int shiX = 0;
 	  private int bug =0;
+	  private boolean once = true; //pour n'effectuer qu'une fois l'initialisation
+	  private int i =0; //pour parcourir le tableau
+	  private int vit =0;
+	  
+	  //déclaration des images
+	  Image[] tabImg = new Image[7]; //créer un tableau de 7 images
 
 	//Source -> generate getters and setters
 	  public int getPosX() { //truc
 			return posX;
 		}
+
+		public int getVit() {
+		return vit;
+	}
+
+	public void setVit(int vit) {
+		this.vit = vit;
+	}
 
 		public void setPosX(int posX) {
 			this.posX = posX;
@@ -48,6 +62,9 @@ public class Panneau extends JPanel {
 			public void setShiX(int shiX) {
 				this.shiX = shiX;
 		}
+			
+			//initialisation images
+			
 
 		//affichage
   public void paintComponent(Graphics g){ 
@@ -55,7 +72,7 @@ public class Panneau extends JPanel {
     System.out.println("Le panneau est executé !"); 
 
     //g.setBackground(Color.ORANGE);
-
+    IniImages();
     background(g);
     //figures(g);
     text(g);
@@ -117,7 +134,8 @@ public class Panneau extends JPanel {
 	  
 	    //image : drawImage(Image img, int x, int y, int width, int height, Observer obs)
 	    try {
-	      Image img = ImageIO.read(new File("Images/three_cool_fight_background.gif"));
+	    	Image img = ImageIO.read(new File("Images/three_cool_fight_background.gif"));
+	    	//initialisation des images dans la classe
 	           
 	      //Pour une image de fond, prend toute la taille de la fenêtre
 	      g.drawImage(img, bug*posX, bug*posY, this.getWidth(), this.getHeight(), this);
@@ -168,16 +186,41 @@ public class Panneau extends JPanel {
     g2d.fillRect(100, this.getHeight()/2+100, 50, 70-posX);  
   }
   
+  
   //personnage Shizuo
   private void shizuo(Graphics g) {
-	  try {
-	      Image shi1 = ImageIO.read(new File("Images/Shizuo/HiwStance.png"));
-	           
-	      //image : drawImage(Image img, int x, int y, int width, int height, Observer obs)
-	      g.drawImage(shi1, 0+shiX, this.getHeight()/3+40,600,500, this);
 
-	    } catch (IOException e) {
-	      e.printStackTrace();
-	    }  
+	  //boucle d'animation du personnage
+	      //raté if (shiX %20 >0) { i++; }//modulo le nombre d'images
+	  
+	  if (vit%35  >5) { //modulo le nombre d'images
+		  i++;
+		  }
+	  
+	       if (i>tabImg.length) {i=0;}
+	      //image : drawImage(Image img, int x, int y, int width, int height, Observer obs)
+	      g.drawImage(tabImg[i], shiX, this.getHeight()/3+40,600,500, this);
+
+  }
+  
+  //initialisation des images
+  private void IniImages() {
+	  if (once == true)
+	  try {
+		  tabImg[0] = ImageIO.read(new File("Images/Shizuo/HiwStance.png"));
+		  tabImg[1] = ImageIO.read(new File("Images/Shizuo/Walk/Hiw400_00.png"));
+		  tabImg[2] = ImageIO.read(new File("Images/Shizuo/Walk/Hiw400_01.png"));
+		  tabImg[3] = ImageIO.read(new File("Images/Shizuo/Walk/Hiw400_02.png"));
+		  tabImg[4] = ImageIO.read(new File("Images/Shizuo/Walk/Hiw400_03.png"));
+		  tabImg[5] = ImageIO.read(new File("Images/Shizuo/Walk/Hiw400_04.png"));
+		  tabImg[6] = ImageIO.read(new File("Images/Shizuo/Walk/Hiw400_05.png"));
+			   
+	    		   
+    } 
+	  
+	  catch (IOException e) {
+      e.printStackTrace();
+    }  
+	  once = false;
   }
 }

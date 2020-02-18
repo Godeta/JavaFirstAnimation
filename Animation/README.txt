@@ -5,3 +5,5 @@ Voici un premier projet, on y trouve une animation simple :
 - une boucle se déplaçant dans l'image pour le personnage que j'ai créé avec un créateur de sprite gratuit en ligne (:
 
 + détection touches
+
+Le jar doit être dans le mêmedossier que le dossier Images !!!

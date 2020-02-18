@@ -9,10 +9,8 @@ import java.awt.GradientPaint;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 
 import javax.swing.JPanel;
  
@@ -24,6 +22,7 @@ public class Panneau extends JPanel {
 	  private int shiX = 0;
 	  private int bug =0;
 	  private boolean once = true; //pour n'effectuer qu'une fois l'initialisation
+	  private boolean side = true; //pour choisir dans quel sens il va, true = à droite et false = gauche
 	  private int i =0; //pour parcourir le tableau
 	  private int vit =0;
 	  
@@ -63,7 +62,15 @@ public class Panneau extends JPanel {
 				this.shiX = shiX;
 		}
 			
-			//initialisation images
+			public boolean isSide() {
+				return side;
+			}
+
+			public void setSide(boolean side) {
+				this.side = side;
+			}
+			
+			//initialisation images dans IniImage
 			
 
 		//affichage
@@ -127,6 +134,10 @@ public class Panneau extends JPanel {
 	    g.setFont(font);
 	    g.drawString("Bienvenu dans cette", this.getWidth()/10, this.getHeight()/8);
 	    g.drawString("première animation !!!",this.getWidth()/9, this.getHeight()/8+20);
+	    font = new Font("Impact", Font.BOLD,30);
+	    g.setFont(font);
+	    g.setColor(Color.blue);
+	    g.drawString("Appuyez sur T pour augmenter l'acceleration et R pour la diminuer",this.getWidth()/4, this.getHeight()-60);
   }
   
   //images pour le décor
@@ -199,7 +210,12 @@ public class Panneau extends JPanel {
 	  
 	       if (i>tabImg.length) {i=0;}
 	      //image : drawImage(Image img, int x, int y, int width, int height, Observer obs)
-	      g.drawImage(tabImg[i], shiX, this.getHeight()/3+40,600,500, this);
+	       if (side == true) {
+	    	   g.drawImage(tabImg[i], shiX, this.getHeight()/3+40,600,500, this);
+	       }
+	       else {
+	    	   g.drawImage(tabImg[i], shiX+600, this.getHeight()/3+40,-600,500, this);
+	       }
 
   }
   
@@ -215,7 +231,6 @@ public class Panneau extends JPanel {
 		  tabImg[5] = ImageIO.read(new File("Images/Shizuo/Walk/Hiw400_04.png"));
 		  tabImg[6] = ImageIO.read(new File("Images/Shizuo/Walk/Hiw400_05.png"));
 			   
-	    		   
     } 
 	  
 	  catch (IOException e) {
@@ -223,4 +238,6 @@ public class Panneau extends JPanel {
     }  
 	  once = false;
   }
+  
+
 }

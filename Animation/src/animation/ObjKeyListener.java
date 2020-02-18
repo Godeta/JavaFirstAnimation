@@ -7,6 +7,18 @@ public class ObjKeyListener implements KeyListener {
 	  private final JLabel label;
 	  private int shiX =0;
 	  private int vitS =0;
+	  private int speed =1;
+	  private boolean Side;
+	  
+	  public int getSpeed() {
+		return speed;
+	}
+
+	public void setSpeed(int speed) {
+		this.speed = speed;
+	}
+
+	public boolean isSide() {return Side;}
 	     
 	    public int getVitS() {
 		return vitS;
@@ -35,13 +47,25 @@ public class ObjKeyListener implements KeyListener {
 	                    System.out.println("Vous avez appuyé sur a !!!");
 	                }
 	                else if (e.getKeyCode()==39) { //flèche de droite
-	                	vitS+=1;
+	                	vitS+=speed;
 	                	shiX+=10+vitS;
+	                	Side = true;
 	                }
-	                else if (e.getKeyCode()==37) { //flèche de droite
-	                	vitS+=1;
+	                else if (e.getKeyCode()==37) { //flèche de gauche
+	                	vitS+=speed;
 	                	shiX-=10+vitS;
+	                	Side = false;
 	                	
+	                }
+	                else if (e.getKeyCode()==84) { //si on appuit sur t comme TITOUAN
+	                	speed +=1;
+	                }
+	                else if (e.getKeyCode()==82) { //si on appuit sur r comme ROMINOU
+	                	speed-=1;
+	                }
+	                
+	                else if (e.getKeyCode()==77) { //si on appuit sur m
+	                	shiX = 100;
 	                }
 	                else { vitS=0;}
 	    }

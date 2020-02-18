@@ -93,6 +93,8 @@ public class fenetre extends JFrame { //fille de JFrame qui récupère de quoi fai
 	      pan.setPosY(y);
 	      pan.setShiX(shiX);
 	      pan.setVit(vitS);
+	      
+	      pan.setSide(truc.isSide() );
 	      pan.repaint();  
 	      try {
 	        Thread.sleep(10);

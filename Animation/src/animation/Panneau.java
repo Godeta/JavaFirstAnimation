@@ -207,6 +207,10 @@ public class Panneau extends JPanel {
 	  if (vit%35  >5) { //modulo le nombre d'images
 		  i++;
 		  }
+	  if(vit ==0) {
+		  i=0;
+	  }
+	  else if (vit >0 && vit <4) {i=1;}
 	  
 	       if (i>tabImg.length) {i=0;}
 	      //image : drawImage(Image img, int x, int y, int width, int height, Observer obs)

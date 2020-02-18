@@ -94,7 +94,9 @@ public class fenetre extends JFrame { //fille de JFrame qui récupère de quoi fai
 	      pan.setShiX(shiX);
 	      pan.setVit(vitS);
 	      
-	      pan.setSide(truc.isSide() );
+	      pan.setSide(truc.isSide() ); //pour le boolean coté
+	      pan.setAction(truc.getAction() ); //pour le String action
+	      pan.setMode(truc.getMode() ); //pour le String mode
 	      pan.repaint();  
 	      try {
 	        Thread.sleep(10);

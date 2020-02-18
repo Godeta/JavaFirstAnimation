@@ -9,6 +9,24 @@ public class ObjKeyListener implements KeyListener {
 	  private int vitS =0;
 	  private int speed =1;
 	  private boolean Side;
+	  private String action = "Walk";
+	  private String mode = "Normal";
+	  
+		public String getMode() {
+			return mode;
+		}
+
+		public void setMode(String mode) {
+			this.mode = mode;
+		}
+	  
+		public String getAction() {
+			return action;
+		}
+
+		public void setAction(String action) {
+			this.action = action;
+		}
 	  
 	  public int getSpeed() {
 		return speed;
@@ -48,14 +66,15 @@ public class ObjKeyListener implements KeyListener {
 	                }
 	                else if (e.getKeyCode()==39) { //flèche de droite
 	                	vitS+=speed;
-	                	shiX+=10+vitS;
+	                	shiX+=15+vitS;
 	                	Side = true;
+	                	action = "Walk";
 	                }
 	                else if (e.getKeyCode()==37) { //flèche de gauche
 	                	vitS+=speed;
-	                	shiX-=10+vitS;
+	                	shiX-=15+vitS;
 	                	Side = false;
-	                	
+	                	action = "Walk";	
 	                }
 	                else if (e.getKeyCode()==84) { //si on appuit sur t comme TITOUAN
 	                	speed +=1;
@@ -66,8 +85,25 @@ public class ObjKeyListener implements KeyListener {
 	                
 	                else if (e.getKeyCode()==77) { //si on appuit sur m
 	                	shiX = 100;
+	                	mode = "Bizarre";
 	                }
-	                else { vitS=0;}
+	                else if (e.getKeyCode()==KeyEvent.VK_U) {
+	                	mode = "Normal";
+	                }
+	                else if (e.getKeyCode()==KeyEvent.VK_K) {
+	                	action = "kick";
+	                }
+	                else if (e.getKeyCode()==KeyEvent.VK_L) {
+	                	action = "lamppost";
+	                }
+	                else if (e.getKeyCode()==KeyEvent.VK_P) {
+	                	action = "provoc";
+	                }
+	                else if (e.getKeyCode() == KeyEvent.VK_C) {
+	                	mode = "Control";
+	                }
+	                else { vitS=0;
+	                action = "Walk";}
 	    }
 	 
 	    public void keyReleased(KeyEvent e) {
@@ -80,6 +116,15 @@ public class ObjKeyListener implements KeyListener {
             }
             else if (e.getKeyCode()==37) { //flèche de droite
             	vitS =0;
+            }
+            else if (e.getKeyCode()==KeyEvent.VK_K) { //après avoir fini une action on retrouve notre position de base
+            	action = "Walk";
+            }
+            else if (e.getKeyCode()==KeyEvent.VK_L) {
+            	action = "Walk";
+            }
+            else if (e.getKeyCode()==KeyEvent.VK_P) {
+            	action = "Walk";
             }
 	    }
 	 

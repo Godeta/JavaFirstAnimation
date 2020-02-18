@@ -25,9 +25,12 @@ public class Panneau extends JPanel {
 	  private boolean side = true; //pour choisir dans quel sens il va, true = à droite et false = gauche
 	  private int i =0; //pour parcourir le tableau
 	  private int vit =0;
+	  private int animation;
+	  private String action = "Walk", mode = "Normal";
 	  
 	  //déclaration des images
 	  Image[] tabImg = new Image[7]; //créer un tableau de 7 images
+	  Image[] tabImgA = new Image[20]; //tableau pour les actions du personnage
 
 	//Source -> generate getters and setters
 	  public int getPosX() { //truc
@@ -37,6 +40,21 @@ public class Panneau extends JPanel {
 		public int getVit() {
 		return vit;
 	}
+
+	public String getAction() {
+			return action;
+		}
+
+		public void setAction(String action) {
+			this.action = action;
+		}
+		public String getMode() {
+			return mode;
+		}
+
+		public void setMode(String mode) {
+			this.mode = mode;
+		}
 
 	public void setVit(int vit) {
 		this.vit = vit;
@@ -76,8 +94,12 @@ public class Panneau extends JPanel {
 		//affichage
   public void paintComponent(Graphics g){ 
     //Vous verrez cette phrase chaque fois que la méthode sera invoquée
-    System.out.println("Le panneau est executé !"); 
+    System.out.println(mode); 
 
+    animation++; //variable qui augmente à chaque nouvel affichage
+    
+    //if (animation >10) {animation =0;}
+    
     //g.setBackground(Color.ORANGE);
     IniImages();
     background(g);
@@ -87,6 +109,7 @@ public class Panneau extends JPanel {
     degrade(g);
     
     shizuo(g);
+   
   }               
 
   //rectangle, cercle et autre...
@@ -137,7 +160,7 @@ public class Panneau extends JPanel {
 	    font = new Font("Impact", Font.BOLD,30);
 	    g.setFont(font);
 	    g.setColor(Color.blue);
-	    g.drawString("Appuyez sur T pour augmenter l'acceleration et R pour la diminuer",this.getWidth()/4, this.getHeight()-60);
+	    g.drawString("Appuyez sur C pour afficher la liste des contrôles !",this.getWidth()/4, this.getHeight()-60);
   }
   
   //images pour le décor
@@ -201,10 +224,41 @@ public class Panneau extends JPanel {
   //personnage Shizuo
   private void shizuo(Graphics g) {
 
-	  //boucle d'animation du personnage
-	      //raté if (shiX %20 >0) { i++; }//modulo le nombre d'images
+	  //afficher les touches
+	  if (mode == "Control") {
+		   //x1, y1, width, height
+	        g.drawRect(10+posX, 10, 50, 60);
+	        g.setColor(Color.black);
+	        g.fillRect(0, 0, this.getWidth(), this.getHeight() );
+	  }
 	  
-	  if (vit%35  >5) { //modulo le nombre d'images
+	  
+	  else {
+		  
+	  
+	  //boucle d'animation du personnage
+	  
+	  if (action=="Walk" && mode == "Normal") { //en normal, la vitesse doit être constante (-vit) et l'animation aussi
+	  if (animation%15 ==1) {
+	  i++;
+	  }
+       if (i>6) {i=1; }
+		  if(vit ==0) {
+			  i=0;
+		  }
+		       if (i>tabImg.length) {i=0;}
+		      //image : drawImage(Image img, int x, int y, int width, int height, Observer obs)
+		       if (side == true) {
+		    	   g.drawImage(tabImg[i], shiX-vit, this.getHeight()/3+40,600,500, this);
+		       }
+		       else {
+		    	   g.drawImage(tabImg[i], shiX+600-vit, this.getHeight()/3+40,-600,500, this);
+		       }
+		  }
+	  
+	      //raté if (shiX %20 >0) { i++; }//modulo le nombre d'images
+	  else if (action == "Walk" && mode == "Bizarre") {
+	  if (vit%35  >5) { //modulo le nombre d'images, de 0 à 35, séparé tous les 5 donc 7 images
 		  i++;
 		  }
 	  if(vit ==0) {
@@ -220,13 +274,60 @@ public class Panneau extends JPanel {
 	       else {
 	    	   g.drawImage(tabImg[i], shiX+600, this.getHeight()/3+40,-600,500, this);
 	       }
+	  }
+	  
+	  else if (action == "kick") {
+		  if (animation%10 ==0) {
+		  i++;
+		  }
+	       if (i>5) {i=0; }
+	      //image : drawImage(Image img, int x, int y, int width, int height, Observer obs)
+	       if (side == true) {
+	    	   g.drawImage(tabImgA[i], shiX, this.getHeight()/3+40,600,500, this);
+	       }
+	       else {
+	    	   g.drawImage(tabImgA[i], shiX+600, this.getHeight()/3+40,-600,500, this);
+	       }
+		  
+		  
+	  }
+	  
+	  else if (action == "lamppost") {
+		  if (animation%10 ==0) {
+		  i++;
+		  }
+	       if (i>5) {i=0; }
+	      //image : drawImage(Image img, int x, int y, int width, int height, Observer obs)
+	       if (side == true) {
+	    	   g.drawImage(tabImgA[i+5], shiX, this.getHeight()/3+40,600,500, this);
+	       }
+	       else {
+	    	   g.drawImage(tabImgA[i+5], shiX+600, this.getHeight()/3+40,-600,500, this);
+	       }
+	  }
+	  
+	  else if (action == "provoc") {
+		  if (animation%15 ==0) {
+		  i++;
+		  }
+	       if (i>4) {i=0; }
+	      //image : drawImage(Image img, int x, int y, int width, int height, Observer obs)
+	       if (side == true) {
+	    	   g.drawImage(tabImgA[i+12], shiX, this.getHeight()/3+40,600,500, this);
+	       }
+	       else {
+	    	   g.drawImage(tabImgA[i+12], shiX+600, this.getHeight()/3+40,-600,500, this);
+		       }
+		  }
 
+	  }
   }
   
   //initialisation des images
   private void IniImages() {
 	  if (once == true)
 	  try {
+		  //stand et déplacements
 		  tabImg[0] = ImageIO.read(new File("Images/Shizuo/HiwStance.png"));
 		  tabImg[1] = ImageIO.read(new File("Images/Shizuo/Walk/Hiw400_00.png"));
 		  tabImg[2] = ImageIO.read(new File("Images/Shizuo/Walk/Hiw400_01.png"));
@@ -234,7 +335,30 @@ public class Panneau extends JPanel {
 		  tabImg[4] = ImageIO.read(new File("Images/Shizuo/Walk/Hiw400_03.png"));
 		  tabImg[5] = ImageIO.read(new File("Images/Shizuo/Walk/Hiw400_04.png"));
 		  tabImg[6] = ImageIO.read(new File("Images/Shizuo/Walk/Hiw400_05.png"));
-			   
+		  
+		  //ataques, de 0 à 5 : kick, de 6 à 11 : coup de lampadaire, 12 à 16 : provocation 
+		  //kick
+		  tabImgA[0] = ImageIO.read(new File("Images/Shizuo/kick/Hiw001_00.png"));
+		  tabImgA[1] = ImageIO.read(new File("Images/Shizuo/kick/Hiw001_01.png"));
+		  tabImgA[2] = ImageIO.read(new File("Images/Shizuo/kick/Hiw001_02.png"));
+		  tabImgA[3] = ImageIO.read(new File("Images/Shizuo/kick/Hiw001_03.png"));
+		  tabImgA[4] = ImageIO.read(new File("Images/Shizuo/kick/Hiw001_04.png"));
+		  tabImgA[5] = ImageIO.read(new File("Images/Shizuo/kick/Hiw001_05.png"));
+		  //lampadaire
+		  tabImgA[6] = ImageIO.read(new File("Images/Shizuo/red_light_hit/Hiw002_00.png"));
+		  tabImgA[7] = ImageIO.read(new File("Images/Shizuo/red_light_hit/Hiw002_01.png"));
+		  tabImgA[8] = ImageIO.read(new File("Images/Shizuo/red_light_hit/Hiw002_02.png"));
+		  tabImgA[9] = ImageIO.read(new File("Images/Shizuo/red_light_hit/Hiw002_03.png"));
+		  tabImgA[10] = ImageIO.read(new File("Images/Shizuo/red_light_hit/Hiw002_04.png"));
+		  tabImgA[11] = ImageIO.read(new File("Images/Shizuo/red_light_hit/Hiw002_05.png"));
+		  
+		  //provoc
+		  tabImgA[12] = ImageIO.read(new File("Images/Shizuo/provoc/Hiw320_00.png"));
+		  tabImgA[13] = ImageIO.read(new File("Images/Shizuo/provoc/Hiw320_01.png"));
+		  tabImgA[14] = ImageIO.read(new File("Images/Shizuo/provoc/Hiw320_02.png"));
+		  tabImgA[15] = ImageIO.read(new File("Images/Shizuo/provoc/Hiw320_03.png"));
+		  tabImgA[16] = ImageIO.read(new File("Images/Shizuo/provoc/Hiw320_04.png"));
+		  
     } 
 	  
 	  catch (IOException e) {

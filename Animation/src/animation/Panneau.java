@@ -387,7 +387,7 @@ public class Panneau extends JPanel {
 	  //déclaration audio
 	  //filePath = "Sounds/party_started.wav"; 
 		try {SimpleAudioPlayer audioPlayer = 
-						new SimpleAudioPlayer("Sounds/party_started.wav"); 
+						new SimpleAudioPlayer("Sounds/naruto_op1.wav"); 
 		audioPlayer.play();
 		}
 		catch (Exception ex) 

@@ -101,6 +101,7 @@ import javax.sound.sampled.Clip; class fenetre extends JFrame { //fille de JFram
 	      pan.setSide(truc.isSide() ); //pour le boolean coté
 	      pan.setAction(truc.getAction() ); //pour le String action
 	      pan.setMode(truc.getMode() ); //pour le String mode
+	      pan.setBug(truc.getBug() );
 	      pan.repaint();  
 	      try {
 	        Thread.sleep(10);

@@ -8,10 +8,12 @@ public class ObjKeyListener implements KeyListener {
 	  private int shiX =0;
 	  private int vitS =0;
 	  private int speed =1;
+	  private int bug =0;
 	  private boolean Side;
 	  private String action = "Walk";
 	  private String mode = "Normal";
 	  
+	  public int getBug() {return bug;}
 		public String getMode() {
 			return mode;
 		}
@@ -66,13 +68,23 @@ public class ObjKeyListener implements KeyListener {
 	                }
 	                else if (e.getKeyCode()==39) { //flèche de droite
 	                	vitS+=speed;
-	                	shiX+=15+vitS;
+	                	if (getMode() == "Bizarre" ) { //en mdoe Bizarre il accélère
+	                	shiX+=10+vitS;
+	                	} 
+	                	else {
+	                		shiX+=15;
+	                	}
 	                	Side = true;
 	                	action = "Walk";
 	                }
 	                else if (e.getKeyCode()==37) { //flèche de gauche
-	                	vitS+=speed;
-	                	shiX-=15+vitS;
+	                	vitS-=speed;
+	                	if (getMode() == "Bizarre" ) { //en mdoe Bizarre il accélère
+		                	shiX+=10+vitS;
+		                	} 
+		                	else {
+		                		shiX-=15;
+		                	}
 	                	Side = false;
 	                	action = "Walk";	
 	                }
@@ -89,6 +101,7 @@ public class ObjKeyListener implements KeyListener {
 	                }
 	                else if (e.getKeyCode()==KeyEvent.VK_U) {
 	                	mode = "Normal";
+	                	bug =0;
 	                }
 	                else if (e.getKeyCode()==KeyEvent.VK_K) {
 	                	action = "kick";
@@ -118,13 +131,19 @@ public class ObjKeyListener implements KeyListener {
             	vitS =0;
             }
             else if (e.getKeyCode()==KeyEvent.VK_K) { //après avoir fini une action on retrouve notre position de base
-            	action = "Walk";
+            	if (getMode()!="Crazy") { //en mode crazy animation en boucle
+            	action = "Walk";}
             }
             else if (e.getKeyCode()==KeyEvent.VK_L) {
-            	action = "Walk";
+            	if (getMode()!="Crazy") { //en mode crazy animation en boucle
+            	action = "Walk"; }
             }
             else if (e.getKeyCode()==KeyEvent.VK_P) {
-            	action = "Walk";
+            	if (getMode()!="Crazy") { //en mode crazy animation en boucle
+            	action = "Walk"; }
+            }
+            else if (e.getKeyCode()==KeyEvent.VK_B) {
+            	bug+=1;
             }
 	    }
 	 

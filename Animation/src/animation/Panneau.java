@@ -89,10 +89,20 @@ public class Panneau extends JPanel {
 				this.side = side;
 			}
 			
+			public int getBug() {
+				return bug;
+			}
+
+			public void setBug(int bug) {
+				this.bug = bug;
+			}
+			
 			//initialisation images dans IniImage
 			
 
-		//affichage
+
+
+//affichage
   public void paintComponent(Graphics g){ 
     //Vous verrez cette phrase chaque fois que la méthode sera invoquée
     System.out.println(mode); 
@@ -111,8 +121,8 @@ public class Panneau extends JPanel {
     background(g);
     //figures(g);
     text(g);
-    
-    degrade(g);
+    if(bug>0) {
+    degrade(g);}
     
     shizuo(g);
    
@@ -243,9 +253,10 @@ public class Panneau extends JPanel {
 		    g.drawString("Flèche de droite et de gauche pour déplacement latéraux.",this.getWidth()/4, this.getHeight()/8);
 		    g.drawString("Presser K pour un kick et L pour un coup de lampadaire !",this.getWidth()/4, this.getHeight()/8+50);
 		    g.drawString("Presser P pour provoquer et relacher M pour revenir au début de la map + passer en mode bizarre",this.getWidth()/10, this.getHeight()/8+100);
-		    g.drawString("En mode bizarre : t pour augmenter l'acceleration et r pour la ralentir.",this.getWidth()/8, this.getHeight()/8+150);
+		    g.drawString("En mode bizarre : T pour augmenter l'acceleration et R pour la ralentir.",this.getWidth()/8, this.getHeight()/8+150);
 		    g.drawString("Presser C pour voir les contrôles et U pour quitter ce mode.",this.getWidth()/4, this.getHeight()/8+200);
 		    g.drawString("U permet de revenir en mode normal (donc plus de mode bizarre ou autre)",this.getWidth()/6, this.getHeight()/8+250);
+		    g.drawString("Presser B lance le mode bug (juste pour s'amuser, U pour l'arrêter).",this.getWidth()/6, this.getHeight()/8+250);
 	  }
 	  
 	  
@@ -255,7 +266,7 @@ public class Panneau extends JPanel {
 	  //boucle d'animation du personnage
 	  
 	  if (action=="Walk" && mode == "Normal") { //en normal, la vitesse doit être constante (-vit) et l'animation aussi
-	  if (animation%15 ==1) {
+	  if (animation%20 ==1) {
 	  i++;
 	  }
        if (i>6) {i=1; }
@@ -265,11 +276,12 @@ public class Panneau extends JPanel {
 		       if (i>tabImg.length) {i=0;}
 		      //image : drawImage(Image img, int x, int y, int width, int height, Observer obs)
 		       if (side == true) {
-		    	   g.drawImage(tabImg[i], shiX-vit, this.getHeight()/3+40,600,500, this);
+		    	   g.drawImage(tabImg[i], shiX, this.getHeight()/3+40,600,500, this);
 		       }
 		       else {
-		    	   g.drawImage(tabImg[i], shiX+600-vit, this.getHeight()/3+40,-600,500, this);
+		    	   g.drawImage(tabImg[i], shiX+600, this.getHeight()/3+40,-600,500, this);
 		       }
+		       g.drawString("animation :"+animation%15+" vit "+vit+" shiX"+shiX,this.getWidth()/6, this.getHeight()/8+250);
 		  }
 	  
 	      //raté if (shiX %20 >0) { i++; }//modulo le nombre d'images

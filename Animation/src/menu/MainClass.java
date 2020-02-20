@@ -1,11 +1,15 @@
 package menu;
 
+import javax.swing.JFrame;
+
 public class MainClass {
 
-	//Pour apprendre à créer un menu, séparément de l'animation
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+	public static void main(String[] args){
+		
+	      //créer une fenêtre
+	    JFrame gif = new gif();
+	    
+	    
 	}
-
+	
 }

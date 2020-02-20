@@ -12,6 +12,16 @@ public class ObjKeyListener implements KeyListener {
 	  private boolean Side;
 	  private String action = "Walk";
 	  private String mode = "Normal";
+	  //tableaux de Modes et d'Animations
+	  private int iterator =0; //pour parcourir les tableaux
+	  String tabMod[] = {"Normal", "Bizarre", "Simon", "Antoine", "Rominou"};
+	  String tabAnim[] = {"Basic", "Crazy", "Push"};
+	  
+	  //augmente un tableau et revient à 0 si la valeur dépasse la taille du tableau
+	  public void tabUp(String tab[]) {
+		  iterator++;
+		  if (iterator>tab.length-1) {iterator =0;}
+	  }
 	  
 	  public int getBug() {return bug;}
 		public String getMode() {
@@ -95,10 +105,6 @@ public class ObjKeyListener implements KeyListener {
 	                	speed-=1;
 	                }
 	                
-	                else if (e.getKeyCode()==77) { //si on appuit sur m
-	                	shiX = 100;
-	                	mode = "Bizarre";
-	                }
 	                else if (e.getKeyCode()==KeyEvent.VK_U) {
 	                	mode = "Normal";
 	                	bug =0;
@@ -142,8 +148,13 @@ public class ObjKeyListener implements KeyListener {
             	if (getMode()!="Crazy") { //en mode crazy animation en boucle
             	action = "Walk"; }
             }
-            else if (e.getKeyCode()==KeyEvent.VK_B) {
+            else if (e.getKeyCode()==KeyEvent.VK_B) { //mode bug
             	bug+=1;
+            }
+            else if (e.getKeyCode()==77) { //si on appuit sur m, changement de mode
+            	shiX = 100;
+            	tabUp(tabMod); //se déplace de 1 dans tabMod
+            	mode = tabMod[iterator]; //le mode devient le texte présent dans tabMod
             }
 	    }
 	 

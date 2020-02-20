@@ -30,7 +30,7 @@ import javax.sound.sampled.Clip; class fenetre extends JFrame { //fille de JFram
     //constructeur
   public fenetre(){ 
       //titre
-    this.setTitle("Ma première fenêtre Java");
+    this.setTitle("Projet incroyable made by Arnaud de ouf qui tue avec des rayons lasers et tout et tout");
     //taille
     this.setSize(400, 500);
     //emplacement, (x,y) null = au centre

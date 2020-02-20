@@ -32,6 +32,7 @@ public class Panneau extends JPanel {
 	  //déclaration des images
 	  Image[] tabImg = new Image[7]; //créer un tableau de 7 images
 	  Image[] tabImgA = new Image[20]; //tableau pour les actions du personnage
+	  Image Simon, Simon2, Antoine, Rominou;
 
 	//Source -> generate getters and setters
 	  public int getPosX() { //truc
@@ -256,7 +257,7 @@ public class Panneau extends JPanel {
 		    g.drawString("En mode bizarre : T pour augmenter l'acceleration et R pour la ralentir.",this.getWidth()/8, this.getHeight()/8+150);
 		    g.drawString("Presser C pour voir les contrôles et U pour quitter ce mode.",this.getWidth()/4, this.getHeight()/8+200);
 		    g.drawString("U permet de revenir en mode normal (donc plus de mode bizarre ou autre)",this.getWidth()/6, this.getHeight()/8+250);
-		    g.drawString("Presser B lance le mode bug (juste pour s'amuser, U pour l'arrêter).",this.getWidth()/6, this.getHeight()/8+250);
+		    g.drawString("Presser B lance le mode bug (juste pour s'amuser, U pour l'arrêter).",this.getWidth()/6, this.getHeight()/8+300);
 	  }
 	  
 	  
@@ -265,7 +266,7 @@ public class Panneau extends JPanel {
 	  
 	  //boucle d'animation du personnage
 	  
-	  if (action=="Walk" && mode == "Normal") { //en normal, la vitesse doit être constante (-vit) et l'animation aussi
+	  if (action=="Walk" && mode != "Bizarre") { //en normal, la vitesse doit être constante (-vit) et l'animation aussi
 	  if (animation%20 ==1) {
 	  i++;
 	  }
@@ -277,9 +278,27 @@ public class Panneau extends JPanel {
 		      //image : drawImage(Image img, int x, int y, int width, int height, Observer obs)
 		       if (side == true) {
 		    	   g.drawImage(tabImg[i], shiX, this.getHeight()/3+40,600,500, this);
+		    	   if (mode=="Simon") {
+		    		   g.drawImage(Simon, shiX, this.getHeight()/3+40,600,500, this);
+		    	   }
+		    	   else if (mode == "Antoine") {
+		    		   g.drawImage(Antoine, shiX, this.getHeight()/3+40,600,500, this);
+		    	   }
+		    	   else if (mode == "Rominou") {
+		    		   g.drawImage(Rominou, shiX, this.getHeight()/3+40,600,500, this);
+		    	   }
 		       }
 		       else {
 		    	   g.drawImage(tabImg[i], shiX+600, this.getHeight()/3+40,-600,500, this);
+		    	   if (mode=="Simon") {
+		    		   g.drawImage(Simon, shiX+600, this.getHeight()/3+40,-600,500, this);
+		    	   }
+		    	   else if (mode =="Antoine") {
+		    		   g.drawImage(Antoine, shiX+600, this.getHeight()/3+40,-600,500, this);
+		    	   }
+		    	   else if (mode =="Rominou") {
+		    		   g.drawImage(Rominou, shiX+600, this.getHeight()/3+40,-600,500, this);
+		    	   }
 		       }
 		       g.drawString("animation :"+animation%15+" vit "+vit+" shiX"+shiX,this.getWidth()/6, this.getHeight()/8+250);
 		  }
@@ -312,9 +331,15 @@ public class Panneau extends JPanel {
 	      //image : drawImage(Image img, int x, int y, int width, int height, Observer obs)
 	       if (side == true) {
 	    	   g.drawImage(tabImgA[i], shiX, this.getHeight()/3+40,600,500, this);
+	    	   if (mode=="Simon") {
+	    		   g.drawImage(Simon2, shiX, this.getHeight()/3+40,600,500, this);
+	    	   }
 	       }
 	       else {
 	    	   g.drawImage(tabImgA[i], shiX+600, this.getHeight()/3+40,-600,500, this);
+	    	   if (mode=="Simon") {
+	    		   g.drawImage(Simon2, shiX+600, this.getHeight()/3+40,-600,500, this);
+	    	   }
 	       }
 		  
 		  
@@ -387,6 +412,10 @@ public class Panneau extends JPanel {
 		  tabImgA[15] = ImageIO.read(new File("Images/Shizuo/provoc/Hiw320_03.png"));
 		  tabImgA[16] = ImageIO.read(new File("Images/Shizuo/provoc/Hiw320_04.png"));
 		  
+		  Simon = ImageIO.read(new File("Images/Shizuo/Simon_mod.png"));
+		  Simon2 = ImageIO.read(new File("Images/Shizuo/Simon2_mod.png"));
+		  Antoine = ImageIO.read(new File("Images/Shizuo/Antoine_mod.png"));
+		  Rominou = ImageIO.read(new File("Images/Shizuo/Rominou.png"));
     } 
 	  
 	  catch (IOException e) {

@@ -10,6 +10,7 @@ public class ObjKeyListener implements KeyListener {
 	  private int speed =1;
 	  private int bug =0;
 	  private boolean Side;
+	  private boolean eventHold = false;
 	  private String action = "Walk";
 	  private String mode = "Normal";
 	  //tableaux de Modes et d'Animations
@@ -25,6 +26,11 @@ public class ObjKeyListener implements KeyListener {
 	  }
 	  
 	  public int getBug() {return bug;}
+	  
+		public boolean isEventHold() {
+			return eventHold;
+		}
+
 	  
 	  public String getMode() {
 			return mode;
@@ -130,6 +136,9 @@ public class ObjKeyListener implements KeyListener {
 	                else if (e.getKeyCode() == KeyEvent.VK_C) {
 	                	mode = "Control";
 	                }
+	                else if(e.getKeyCode()==KeyEvent.VK_H) {
+	                	eventHold = true;
+	                }
 	                else { vitS=0;
 	                action = "Walk";}
 	    }
@@ -170,6 +179,9 @@ public class ObjKeyListener implements KeyListener {
             }
             else if(e.getKeyCode()==KeyEvent.VK_I) {
             	mode ="infos";
+            }
+            else if(e.getKeyCode()==KeyEvent.VK_H) {
+            	eventHold = false;
             }
 	        
 	    }

@@ -103,6 +103,7 @@ import javax.sound.sampled.Clip; class fenetre extends JFrame { //fille de JFram
 	      pan.setMode(truc.getMode() ); //pour le String mode
 	      pan.setBug(truc.getBug() );
 	      pan.setTabMode(truc.getTabMod() );
+	      pan.setEventHold(truc.isEventHold() );
 	      pan.repaint();  
 	      try {
 	        Thread.sleep(10);

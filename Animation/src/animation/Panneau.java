@@ -11,7 +11,7 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
  
@@ -24,6 +24,7 @@ public class Panneau extends JPanel {
 	  private int bug =0; //pour faire des réactions marrantes avec le fond
 	  private boolean once = true; //pour n'effectuer qu'une fois l'initialisation
 	  private boolean side = true; //pour choisir dans quel sens il va, true = à droite et false = gauche
+	  private boolean eventHold; //pour un évènement à maintenir
 	  private int i =0; //pour parcourir le tableau
 	  private int vit =0;
 	  private int animation;
@@ -37,7 +38,7 @@ public class Panneau extends JPanel {
 	  Image[] tabImg = new Image[7]; //créer un tableau de 7 images
 	  Image[] tabImgA = new Image[20]; //tableau pour les actions du personnage
 	  Image[] tabImgJul = new Image[10];
-	  Image Simon, Simon2, Antoine, Rominou;
+	  Image Simon, Simon2, Antoine, Rominou, JulBack;
 	  
 	  //création sons
 	  SimpleAudioPlayer JulPlayerJ;
@@ -65,6 +66,11 @@ public class Panneau extends JPanel {
 		public void setAction(String action) {
 			this.action = action;
 		}
+		
+		public void setEventHold(boolean eventHold) {
+			this.eventHold = eventHold;
+		}
+		
 		public String getMode() {
 			return mode;
 		}
@@ -143,6 +149,9 @@ public class Panneau extends JPanel {
     if (mode=="Jul") { //en mode Jul, lorsque le mode éveil s'active
     	alpha = animation%150+20;
 		   myColour = new Color(255, 50, 0, alpha);
+		   if (eventHold ==true) {
+			   g.drawImage(JulBack, 0, 0, this.getWidth(), this.getHeight(), this);
+		   }
     }
     
     infoDev(g);
@@ -215,7 +224,9 @@ public class Panneau extends JPanel {
 	    	//initialisation des images dans la classe
 	           
 	      //Pour une image de fond, prend toute la taille de la fenêtre
-	      g.drawImage(img, bug*posX, bug*posY, this.getWidth(), this.getHeight(), this);
+	      //g.drawImage(img, bug*posX, bug*posY, this.getWidth(), this.getHeight(), this);
+	    	//pour afficher un gif il faut utiliser ImageIcon !
+	    	g.drawImage(new ImageIcon("Images/three_cool_fight_background.gif").getImage(), bug*posX, bug*posY,this.getWidth(), this.getHeight(), this);
 	     
 	    	
 	      /*Image icon = new ImageIcon(getClass().getResource("/Images/three_cool_fight_background.gif")).getImage();
@@ -286,7 +297,8 @@ public class Panneau extends JPanel {
 		    g.drawString("Presser B lance le mode bug (juste pour s'amuser, U pour l'arrêter).",this.getWidth()/6, this.getHeight()/8+300);
 		    g.drawString("En mode Jul, faire une provocation pour activer son éveil !!!",this.getWidth()/4, this.getHeight()/8+350);
 		    g.drawString("Presser V pour afficher la liste des modes.",this.getWidth()/4, this.getHeight()/8+400);
-		    g.drawString("Presser I pour afficher l'évolution des variables",this.getWidth()/4, this.getHeight()/8+450);
+		    g.drawString("Presser I pour afficher l'évolution des variables.",this.getWidth()/4, this.getHeight()/8+450);
+		    g.drawString("Presser H pour activer les évènements à maintenir (il n'y en a que rarement).",this.getWidth()/6, this.getHeight()/8+500);
 		    
 		    
 	  }
@@ -485,6 +497,7 @@ public class Panneau extends JPanel {
 		  Simon2 = ImageIO.read(new File("Images/Shizuo/Simon2_mod.png"));
 		  Antoine = ImageIO.read(new File("Images/Shizuo/Antoine_mod.png"));
 		  Rominou = ImageIO.read(new File("Images/Shizuo/Rominou.png"));
+		  JulBack = ImageIO.read(new File("Images/Jul/jul_background.png"));
 		  
 		  //Jul
 		  tabImgJul[0] = ImageIO.read(new File("Images/Jul/jul2-2.png"));

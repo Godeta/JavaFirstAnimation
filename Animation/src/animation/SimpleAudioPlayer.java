@@ -20,6 +20,7 @@ public class SimpleAudioPlayer
 	AudioInputStream audioInputStream; 
 	private boolean playing = false;
 
+
 	public boolean isPlaying() {
 		return playing;
 	}

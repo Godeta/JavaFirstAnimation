@@ -18,6 +18,15 @@ public class SimpleAudioPlayer
 	String status; 
 	static String filePath;
 	AudioInputStream audioInputStream; 
+	private boolean playing = false;
+
+	public boolean isPlaying() {
+		return playing;
+	}
+
+	public void setPlaying(boolean playing) {
+		this.playing = playing;
+	}
 
 	// constructor to initialize streams and clip 
 	public SimpleAudioPlayer(String filePath2) 
@@ -36,6 +45,7 @@ public class SimpleAudioPlayer
 		clip.open(audioInputStream); 
 		
 		clip.loop(Clip.LOOP_CONTINUOUSLY); 
+		playing = true;
 	} 
 
 	/*public static void main(String[] args) 
@@ -110,6 +120,7 @@ public class SimpleAudioPlayer
 		clip.start(); 
 		
 		status = "play"; 
+		playing = true;
 	} 
 	
 	// Method to pause the audio 
@@ -124,6 +135,7 @@ public class SimpleAudioPlayer
 		this.clip.getMicrosecondPosition(); 
 		clip.stop(); 
 		status = "paused"; 
+		playing = false;
 	} 
 	
 	// Method to resume the audio 
@@ -158,10 +170,16 @@ public class SimpleAudioPlayer
 	public void stop() throws UnsupportedAudioFileException, 
 	IOException, LineUnavailableException 
 	{ 
+		playing = false;
 		currentFrame = 0L; 
 		clip.stop(); 
-		clip.close(); 
+		 
 	} 
+	
+	public void close() {
+		playing = false;
+		clip.close();
+	}
 	
 	// Method to jump over a specific part 
 	public void jump(long c) throws UnsupportedAudioFileException, IOException, 
@@ -169,6 +187,7 @@ public class SimpleAudioPlayer
 	{ 
 		if (c > 0 && c < clip.getMicrosecondLength()) 
 		{ 
+			
 			clip.stop(); 
 			clip.close(); 
 			resetAudioStream(); 

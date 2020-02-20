@@ -62,7 +62,7 @@ import javax.sound.sampled.Clip; class fenetre extends JFrame { //fille de JFram
 
   //constructeur si on donne la taille
   public fenetre(int width, int height){ 
-    this.setTitle("Ma première fenêtre Java");
+    this.setTitle("Projet incroyable made by Arnaud de ouf qui tue avec des rayons lasers et tout et tout");
     this.setSize(width, height);
     this.setLocationRelativeTo(null);
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);             
@@ -102,6 +102,7 @@ import javax.sound.sampled.Clip; class fenetre extends JFrame { //fille de JFram
 	      pan.setAction(truc.getAction() ); //pour le String action
 	      pan.setMode(truc.getMode() ); //pour le String mode
 	      pan.setBug(truc.getBug() );
+	      pan.setTabMode(truc.getTabMod() );
 	      pan.repaint();  
 	      try {
 	        Thread.sleep(10);

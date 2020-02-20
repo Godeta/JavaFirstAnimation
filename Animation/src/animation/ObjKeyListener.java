@@ -14,8 +14,9 @@ public class ObjKeyListener implements KeyListener {
 	  private String mode = "Normal";
 	  //tableaux de Modes et d'Animations
 	  private int iterator =0; //pour parcourir les tableaux
-	  String tabMod[] = {"Normal", "Bizarre", "Simon", "Antoine", "Rominou"};
-	  String tabAnim[] = {"Basic", "Crazy", "Push"};
+
+	private String tabMod[] = {"Normal", "Bizarre", "Simon", "Antoine", "Rominou", "Jul"};
+	 private String tabAnim[] = {"Basic", "Crazy", "Push"};
 	  
 	  //augmente un tableau et revient à 0 si la valeur dépasse la taille du tableau
 	  public void tabUp(String tab[]) {
@@ -24,10 +25,18 @@ public class ObjKeyListener implements KeyListener {
 	  }
 	  
 	  public int getBug() {return bug;}
-		public String getMode() {
+	  
+	  public String getMode() {
 			return mode;
 		}
-
+		
+	  public String[] getTabMod() {
+				return tabMod;
+			}
+	  public void setTabMod(String[] tabMod) {
+				this.tabMod = tabMod;
+			}
+	
 		public void setMode(String mode) {
 			this.mode = mode;
 		}
@@ -156,6 +165,13 @@ public class ObjKeyListener implements KeyListener {
             	tabUp(tabMod); //se déplace de 1 dans tabMod
             	mode = tabMod[iterator]; //le mode devient le texte présent dans tabMod
             }
+            else if (e.getKeyCode()==KeyEvent.VK_V) { //mode bug
+            	mode = "ListeMod";
+            }
+            else if(e.getKeyCode()==KeyEvent.VK_I) {
+            	mode ="infos";
+            }
+	        
 	    }
 	 
 	    public void keyTyped(KeyEvent e) {

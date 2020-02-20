@@ -27,12 +27,23 @@ public class Panneau extends JPanel {
 	  private int i =0; //pour parcourir le tableau
 	  private int vit =0;
 	  private int animation;
+	  private int soundChange =0;
 	  private String action = "Walk", mode = "Normal";
+	  private String tabMod[];
+	  private int alpha = 127; // 50% transparece
+	  Color myColour; //initialisé dans l'éveil de Jul
 	  
 	  //déclaration des images
 	  Image[] tabImg = new Image[7]; //créer un tableau de 7 images
 	  Image[] tabImgA = new Image[20]; //tableau pour les actions du personnage
+	  Image[] tabImgJul = new Image[10];
 	  Image Simon, Simon2, Antoine, Rominou;
+	  
+	  //création sons
+	  SimpleAudioPlayer JulPlayerJ;
+	  SimpleAudioPlayer JulPlayerB;
+	  SimpleAudioPlayer audioPlayer;
+	  //initialisation dans Ini Sound
 
 	//Source -> generate getters and setters
 	  public int getPosX() { //truc
@@ -43,6 +54,10 @@ public class Panneau extends JPanel {
 		return vit;
 	}
 
+		public void setTabMode (String[] tabMod2) {
+			this.tabMod = tabMod2;
+		}
+		
 	public String getAction() {
 			return action;
 		}
@@ -125,7 +140,15 @@ public class Panneau extends JPanel {
     if(bug>0) {
     degrade(g);}
     
+    if (mode=="Jul") { //en mode Jul, lorsque le mode éveil s'active
+    	alpha = animation%150+20;
+		   myColour = new Color(255, 50, 0, alpha);
+    }
+    
+    infoDev(g);
+    
     shizuo(g);
+    ChangeSound(soundChange);
    
   }               
 
@@ -170,13 +193,16 @@ public class Panneau extends JPanel {
 	  g.setColor(Color.white);
 	    //texte
 	    Font font = new Font("Verdana", Font.BOLD, 20);
-	    g.drawString("Un texte sans font et tout petit !", 40, this.getHeight()-20);
+	    g.drawString("Projet de Arnaud GODET en Fevrier 2020", 40, this.getHeight()-20);
 	    g.setFont(font);
 	    g.drawString("Bienvenu dans cette", this.getWidth()/10, this.getHeight()/8);
 	    g.drawString("première animation !!!",this.getWidth()/9, this.getHeight()/8+20);
 	    font = new Font("Impact", Font.BOLD,30);
 	    g.setFont(font);
-	    g.setColor(Color.blue);
+	    Graphics2D g2d = (Graphics2D)g;
+	    GradientPaint grad;
+	    grad = new GradientPaint(0, 0, Color.orange, 30, 30, Color.white, true);  
+	    g2d.setPaint(grad);
 	    g.drawString("Appuyez sur C pour afficher la liste des contrôles !",this.getWidth()/4, this.getHeight()-60);
   }
   
@@ -244,7 +270,7 @@ public class Panneau extends JPanel {
 	  //afficher les touches
 	  if (mode == "Control") {
 		   //x1, y1, width, height
-	        g.drawRect(10+posX, 10, 50, 60);
+	        //g.drawRect(10+posX, 10, 50, 60);
 	        g.setColor(Color.black);
 	        g.fillRect(0, 0, this.getWidth(), this.getHeight() );
 	        
@@ -253,11 +279,37 @@ public class Panneau extends JPanel {
 		    g.setColor(Color.white);
 		    g.drawString("Flèche de droite et de gauche pour déplacement latéraux.",this.getWidth()/4, this.getHeight()/8);
 		    g.drawString("Presser K pour un kick et L pour un coup de lampadaire !",this.getWidth()/4, this.getHeight()/8+50);
-		    g.drawString("Presser P pour provoquer et relacher M pour revenir au début de la map + passer en mode bizarre",this.getWidth()/10, this.getHeight()/8+100);
-		    g.drawString("En mode bizarre : T pour augmenter l'acceleration et R pour la ralentir.",this.getWidth()/8, this.getHeight()/8+150);
 		    g.drawString("Presser C pour voir les contrôles et U pour quitter ce mode.",this.getWidth()/4, this.getHeight()/8+200);
+		    g.drawString("Presser P pour provoquer et relacher M pour revenir au début de la map + passer au mode suivant.",this.getWidth()/10, this.getHeight()/8+100);
+		    g.drawString("En mode bizarre : T pour augmenter l'acceleration et R pour la ralentir.",this.getWidth()/8, this.getHeight()/8+150);
 		    g.drawString("U permet de revenir en mode normal (donc plus de mode bizarre ou autre)",this.getWidth()/6, this.getHeight()/8+250);
 		    g.drawString("Presser B lance le mode bug (juste pour s'amuser, U pour l'arrêter).",this.getWidth()/6, this.getHeight()/8+300);
+		    g.drawString("En mode Jul, faire une provocation pour activer son éveil !!!",this.getWidth()/4, this.getHeight()/8+350);
+		    g.drawString("Presser V pour afficher la liste des modes.",this.getWidth()/4, this.getHeight()/8+400);
+		    g.drawString("Presser I pour afficher l'évolution des variables",this.getWidth()/4, this.getHeight()/8+450);
+		    
+		    
+	  }
+	  
+	  else if (mode =="ListeMod") {
+		   //x1, y1, width, height
+	        g.setColor(Color.blue);
+	        g.fillRect(0, 0, this.getWidth(), this.getHeight() );
+	        
+	        Font titre = new Font("Comic-sans-ms", Font.BOLD,70);
+	        Font blabla = new Font("Verdana", Font.BOLD,30);
+	        
+		    g.setFont(titre);
+		    g.setColor(Color.white);
+		    g.drawString("Liste des modes :",this.getWidth()/4, this.getHeight()/8+100);
+		    
+		    g.setFont(blabla);
+		    g.setColor(Color.orange);
+		//affiche la liste des modes
+		    for (int i=0; i<tabMod.length; i++ ) {
+		    	g.drawString("Mode : "+ tabMod[i],this.getWidth()/2, this.getHeight()/8+150+i*50);
+		    }
+		    g.drawString("(Appuyez sur U pour revenir au jeu)",50, this.getHeight()-100);
 	  }
 	  
 	  
@@ -287,6 +339,15 @@ public class Panneau extends JPanel {
 		    	   else if (mode == "Rominou") {
 		    		   g.drawImage(Rominou, shiX, this.getHeight()/3+40,600,500, this);
 		    	   }
+		    	   else if (JulPlayerJ.isPlaying() == true) { //Jul animation avec la musique jdvc
+		    		   g.drawImage(tabImgJul[1], shiX, this.getHeight()/3+40,600,500, this);
+		    	   }
+		    	   else if (JulPlayerB.isPlaying() == true) {// Jul statique et musique beuh
+		    		   g.drawImage(tabImgJul[0], shiX, this.getHeight()/3+40,600,500, this);
+		    		   g.setColor(myColour);
+		    		   g.fillRect(0, 0, this.getWidth(), this.getHeight() );
+		    		   
+		    	   }
 		       }
 		       else {
 		    	   g.drawImage(tabImg[i], shiX+600, this.getHeight()/3+40,-600,500, this);
@@ -299,8 +360,16 @@ public class Panneau extends JPanel {
 		    	   else if (mode =="Rominou") {
 		    		   g.drawImage(Rominou, shiX+600, this.getHeight()/3+40,-600,500, this);
 		    	   }
+		    	   else if (JulPlayerJ.isPlaying() == true) { //Jul animation avec la musique jdvc
+		    		   g.drawImage(tabImgJul[1], shiX+600, this.getHeight()/3+40,-600,500, this);
+		    	   }
+		    	   else if (JulPlayerB.isPlaying() == true) {// Jul statique et musique beuh
+		    		   g.drawImage(tabImgJul[0], shiX+600, this.getHeight()/3+40,-600,500, this);
+		    		   g.setColor(myColour);
+		    		   g.fillRect(0, 0, this.getWidth(), this.getHeight() );
+		    	   }
 		       }
-		       g.drawString("animation :"+animation%15+" vit "+vit+" shiX"+shiX,this.getWidth()/6, this.getHeight()/8+250);
+
 		  }
 	  
 	      //raté if (shiX %20 >0) { i++; }//modulo le nombre d'images
@@ -416,6 +485,10 @@ public class Panneau extends JPanel {
 		  Simon2 = ImageIO.read(new File("Images/Shizuo/Simon2_mod.png"));
 		  Antoine = ImageIO.read(new File("Images/Shizuo/Antoine_mod.png"));
 		  Rominou = ImageIO.read(new File("Images/Shizuo/Rominou.png"));
+		  
+		  //Jul
+		  tabImgJul[0] = ImageIO.read(new File("Images/Jul/jul2-2.png"));
+		  tabImgJul[1] = ImageIO.read(new File("Images/Jul/julS.png"));
     } 
 	  
 	  catch (IOException e) {
@@ -423,13 +496,14 @@ public class Panneau extends JPanel {
     }  
 	  
   }
-  
+
   private void IniSound() {
 	  //déclaration audio
 	  //filePath = "Sounds/party_started.wav"; 
-		try {SimpleAudioPlayer audioPlayer = 
-						new SimpleAudioPlayer("Sounds/naruto_op1.wav"); 
-		audioPlayer.play();
+		try { audioPlayer = new SimpleAudioPlayer("Sounds/naruto_op1.wav"); 
+		 JulPlayerB = new SimpleAudioPlayer("Sounds/jul_beu.wav"); 
+		 JulPlayerJ = new SimpleAudioPlayer("Sounds/jul_jcvd.wav"); 
+		//audioPlayer.play();
 		}
 		catch (Exception ex) 
 		{ 
@@ -438,6 +512,63 @@ public class Panneau extends JPanel {
 		
 		} 
 		
+  }
+  
+  private void infoDev (Graphics g) { //affichage graphique de l'évolution des variables
+	  if (mode =="infos") {
+		  g.setColor(Color.white);
+	  g.drawString("animation :"+animation%15+" vit "+vit+" shiX"+shiX +" soundChange "+ soundChange,this.getWidth()/6, this.getHeight()/8+250);
+	  
+	  }
+  }
+  
+  private void ChangeSound(int x) { //prend une variable x et joue un son selon la valeur de x
+	  if (mode == "Jul" ) {
+		  if (action =="provoc") {
+			  soundChange =2;
+		  }
+		  if (soundChange != 666 && soundChange !=2) {
+		  soundChange =1;}
+		  
+	  }
+	  if (x==0) { //joue Naruto
+		  try {
+		  JulPlayerJ.stop();
+		  JulPlayerB.stop(); }
+		  catch (Exception ex) {
+			  System.out.println("Error with stopping sound."); 
+				ex.printStackTrace();
+		  }
+		  audioPlayer.play();
+	  }
+	  else if (x==1) { //joue JCVD
+		  try {
+		  audioPlayer.stop();
+		  JulPlayerB.stop(); }
+		  catch (Exception ex) {
+			  System.out.println("Error with stopping sound."); 
+				ex.printStackTrace();
+		  }
+		  JulPlayerJ.play();
+		  soundChange =666;
+	  }
+	  else if (x==2) { //joue beuh magique
+		  try {
+			  audioPlayer.stop();
+			  JulPlayerJ.stop(); 
+			  }
+			  catch (Exception ex) {
+				  System.out.println("Error with stopping sound."); 
+					ex.printStackTrace();
+			  }
+			  JulPlayerB.play();
+			  soundChange =666;
+	  }
+	  else if (x==666) { //dans la boucle, si on ne change pas de son
+		  System.out.println("Pas de son a changer, tout va bien.");
+		  if (mode !="Jul") {soundChange = 0;}
+	  }
+	  else {x=0;} //si on a une valeur incohérente par exemple dépasser 2 alors retour à la musique Naruto
   }
 
   

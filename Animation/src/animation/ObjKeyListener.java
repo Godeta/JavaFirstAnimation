@@ -16,7 +16,7 @@ public class ObjKeyListener implements KeyListener {
 	  //tableaux de Modes et d'Animations
 	  private int iterator =0; //pour parcourir les tableaux
 
-	private String tabMod[] = {"Normal", "Bizarre", "Simon", "Antoine", "Rominou", "Jul"};
+	private String tabMod[] = {"Normal", "Bizarre", "Simon", "Antoine", "Rominou", "Jul", "QTE"};
 	 private String tabAnim[] = {"Basic", "Crazy", "Push"};
 	  
 	  //augmente un tableau et revient à 0 si la valeur dépasse la taille du tableau
@@ -103,9 +103,9 @@ public class ObjKeyListener implements KeyListener {
 	                	action = "Walk";
 	                }
 	                else if (e.getKeyCode()==37) { //flèche de gauche
-	                	vitS-=speed;
+	                	vitS+=speed;
 	                	if (getMode() == "Bizarre" ) { //en mdoe Bizarre il accélère
-		                	shiX+=10+vitS;
+		                	shiX+=10-vitS;
 		                	} 
 		                	else {
 		                		shiX-=15;

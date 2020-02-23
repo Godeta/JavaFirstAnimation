@@ -26,6 +26,7 @@ public class Panneau extends JPanel {
 	  private boolean side = true; //pour choisir dans quel sens il va, true = à droite et false = gauche
 	  private boolean eventHold; //pour un évènement à maintenir
 	  private int i =0; //pour parcourir le tableau
+	  private int j =1; //parcourir le tableau de Jul
 	  private int vit =0;
 	  private int animation;
 	  private int soundChange =0;
@@ -33,6 +34,7 @@ public class Panneau extends JPanel {
 	  private String tabMod[];
 	  private int alpha = 127; // 50% transparece
 	  Color myColour; //initialisé dans l'éveil de Jul
+	  textClass lyric = new textClass(); //texte créé avec ma classe texte pour pouvoir faire des fonctions qui le manipule facilement
 	  
 	  //déclaration des images
 	  Image[] tabImg = new Image[7]; //créer un tableau de 7 images
@@ -149,6 +151,7 @@ public class Panneau extends JPanel {
     if (mode=="Jul") { //en mode Jul, lorsque le mode éveil s'active
     	alpha = animation%150+20;
 		   myColour = new Color(255, 50, 0, alpha);
+		   textJul(g);
 		   if (eventHold ==true) {
 			   g.drawImage(JulBack, 0, 0, this.getWidth(), this.getHeight(), this);
 		   }
@@ -352,7 +355,13 @@ public class Panneau extends JPanel {
 		    		   g.drawImage(Rominou, shiX, this.getHeight()/3+40,600,500, this);
 		    	   }
 		    	   else if (JulPlayerJ.isPlaying() == true) { //Jul animation avec la musique jdvc
-		    		   g.drawImage(tabImgJul[1], shiX, this.getHeight()/3+40,600,500, this);
+		    		   if (JulPlayerJ.time() > 11000000 ) { //moment où il commence à parler
+		    			   if (animation%20 ==1) {
+		    				  j++;
+		    				  }
+		    		   }
+		    			       if (j>4) {j=1; }
+		    		   g.drawImage(tabImgJul[j], shiX, this.getHeight()/3+40,600,500, this);
 		    	   }
 		    	   else if (JulPlayerB.isPlaying() == true) {// Jul statique et musique beuh
 		    		   g.drawImage(tabImgJul[0], shiX, this.getHeight()/3+40,600,500, this);
@@ -373,7 +382,13 @@ public class Panneau extends JPanel {
 		    		   g.drawImage(Rominou, shiX+600, this.getHeight()/3+40,-600,500, this);
 		    	   }
 		    	   else if (JulPlayerJ.isPlaying() == true) { //Jul animation avec la musique jdvc
-		    		   g.drawImage(tabImgJul[1], shiX+600, this.getHeight()/3+40,-600,500, this);
+		    		   if (JulPlayerJ.time() > 11000000 ) { //moment où il commence à parler
+		    		   if (animation%20 ==1) {
+		    				  j++;
+		    				  }
+		    		   }
+		    			       if (j>4) {j=1; }
+		    		   g.drawImage(tabImgJul[j], shiX+600, this.getHeight()/3+40,-600,500, this);
 		    	   }
 		    	   else if (JulPlayerB.isPlaying() == true) {// Jul statique et musique beuh
 		    		   g.drawImage(tabImgJul[0], shiX+600, this.getHeight()/3+40,-600,500, this);
@@ -502,6 +517,9 @@ public class Panneau extends JPanel {
 		  //Jul
 		  tabImgJul[0] = ImageIO.read(new File("Images/Jul/jul2-2.png"));
 		  tabImgJul[1] = ImageIO.read(new File("Images/Jul/julS.png"));
+		  tabImgJul[2] = ImageIO.read(new File("Images/Jul/julS2.png"));
+		  tabImgJul[3] = ImageIO.read(new File("Images/Jul/julS3.png"));
+		  tabImgJul[4] = ImageIO.read(new File("Images/Jul/julS4.png"));
     } 
 	  
 	  catch (IOException e) {
@@ -529,9 +547,36 @@ public class Panneau extends JPanel {
   
   private void infoDev (Graphics g) { //affichage graphique de l'évolution des variables
 	  if (mode =="infos") {
-		  g.setColor(Color.white);
-	  g.drawString("animation :"+animation%15+" vit "+vit+" shiX"+shiX +" soundChange "+ soundChange,this.getWidth()/6, this.getHeight()/8+250);
+		  g.setColor(Color.black);
+	  g.drawString("ANIMATION :"+animation%15+" vit "+vit+" shiX"+shiX,this.getWidth()/6, this.getHeight()/8+250);
+	  g.drawString("SOUNDCHANGE "+ soundChange +" MODE :" + mode + " TEMPS musique "+ audioPlayer.time() + " JUL :" + JulPlayerJ.time(),this.getWidth()/6, this.getHeight()/8+100);
 	  
+	  }
+  }
+  
+  private void textJul(Graphics g) {
+	  //lyric.countTemps();
+	  //lyric.appear(g, "ça veut l'port d'armes et les bras d'Jean CLaude Vandahme !", 100, 200, 50, 2);
+	  if (JulPlayerJ.time() > 11000000 && JulPlayerJ.time()<13000000) { //moment où il commence à parler
+		  //g.drawString("TEST",this.getWidth()/6, this.getHeight()/8+250);
+		  /*lyric.countTemps(); //lance le chrono
+		  lyric.setColour(50, 100, 0); //choisi la couleur du texte
+		 lyric.appear(g, "Ça veut l'port d'armes ", 100, 200, 50, 2); //fait apparaître le texte à l'emplacement donné pendant un certain intervalle de temps
+		 lyric.appear(g,  "Et les gros bras à Jean Claude Van Damme !", 100, 300, 50, 2); //texte, x, y, taille 50 et 2s*/
+		  
+		  lyric.setColour(100, 50, 0); //choisi la couleur du texte
+		  lyric.appear(g, "Ça veut l'port d'armes ", 100, 200, 50); //fait apparaître le texte à l'emplacement donné 
+			 lyric.appear(g,  "Et les gros bras à Jean Claude Van Damme !", 100, 300, 50); //texte, x, y et taille 50 */
+	  }
+	  else if(JulPlayerJ.time() > 13000000 && JulPlayerJ.time()<17000000) {
+		  lyric.setColour(0, 200, 0); //choisi la couleur du texte
+		  lyric.appear(g, "J'fume la beuh d'Amsterdam", 100, 200, 50); //fait apparaître le texte à l'emplacement donné 
+			 lyric.appear(g,  "Celle qui est bonne, qui t'monte au crâne!", 100, 300, 50); //texte, x, y et taille 50 */
+	  }
+	  else if(JulPlayerJ.time() > 17000000 && JulPlayerJ.time()<22000000) {
+		  lyric.setColour(0, 0, 100); //choisi la couleur du texte
+		  lyric.appear(g, "Tu veux de la bonne, le petit t'écrase deux Doliprane", 100, 200, 50); //fait apparaître le texte à l'emplacement donné 
+			 lyric.appear(g,  "Si dans le bis tu déconnes, le petit reviendra armé en bécane", 100, 300, 50); //texte, x, y et taille 50 */
 	  }
   }
   

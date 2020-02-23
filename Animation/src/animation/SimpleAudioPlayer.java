@@ -48,6 +48,10 @@ public class SimpleAudioPlayer
 		clip.loop(Clip.LOOP_CONTINUOUSLY); 
 		playing = true;
 	} 
+	
+	public long time () {
+		return this.clip.getMicrosecondPosition();
+	}
 
 	/*public static void main(String[] args) 
 	{ 

@@ -13,6 +13,7 @@ public class ObjKeyListener implements KeyListener {
 	  private boolean eventHold = false;
 	  private String action = "Walk";
 	  private String mode = "Normal";
+	  private String anim = "Basic";
 	  //tableaux de Modes et d'Animations
 	  private int iterator =0; //pour parcourir les tableaux
 
@@ -35,6 +36,9 @@ public class ObjKeyListener implements KeyListener {
 	  public String getMode() {
 			return mode;
 		}
+	  public String getAnim() {
+		  return anim;
+	  }
 		
 	  public String[] getTabMod() {
 				return tabMod;
@@ -93,7 +97,7 @@ public class ObjKeyListener implements KeyListener {
 	                }
 	                else if (e.getKeyCode()==39) { //flèche de droite
 	                	vitS+=speed;
-	                	if (getMode() == "Bizarre" ) { //en mdoe Bizarre il accélère
+	                	if (getMode() == "Bizarre" ) { //en mode Bizarre il accélère
 	                	shiX+=10+vitS;
 	                	} 
 	                	else {
@@ -155,15 +159,15 @@ public class ObjKeyListener implements KeyListener {
             	vitS =0;
             }
             else if (e.getKeyCode()==KeyEvent.VK_K) { //après avoir fini une action on retrouve notre position de base
-            	if (getMode()!="Crazy") { //en mode crazy animation en boucle
+            	if (getAnim()=="Push") { //en mode crazy animation en boucle
             	action = "Walk";}
             }
             else if (e.getKeyCode()==KeyEvent.VK_L) {
-            	if (getMode()!="Crazy") { //en mode crazy animation en boucle
+            	if (getAnim()=="Push") { //en mode crazy animation en boucle
             	action = "Walk"; }
             }
             else if (e.getKeyCode()==KeyEvent.VK_P) {
-            	if (getMode()!="Crazy") { //en mode crazy animation en boucle
+            	if (getAnim()=="Push") { //en mode crazy animation en boucle
             	action = "Walk"; }
             }
             else if (e.getKeyCode()==KeyEvent.VK_B) { //mode bug
@@ -182,6 +186,10 @@ public class ObjKeyListener implements KeyListener {
             }
             else if(e.getKeyCode()==KeyEvent.VK_H) {
             	eventHold = false;
+            }
+            else if(e.getKeyCode()==KeyEvent.VK_A) {
+            	tabUp(tabAnim);
+            	anim = tabAnim[iterator]; //la gestion de l'animation devient le texte présent dans tabAnim
             }
 	        
 	    }

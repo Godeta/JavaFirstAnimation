@@ -104,6 +104,7 @@ import javax.sound.sampled.Clip; class fenetre extends JFrame { //fille de JFram
 	      pan.setBug(truc.getBug() );
 	      pan.setTabMode(truc.getTabMod() );
 	      pan.setEventHold(truc.isEventHold() );
+	      pan.setAnim(truc.getAnim()); //pour le mode d'animaton
 	      pan.repaint();  
 	      try {
 	        Thread.sleep(10);

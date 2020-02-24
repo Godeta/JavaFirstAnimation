@@ -28,10 +28,11 @@ public class Panneau extends JPanel {
 	  private int i =0; //pour parcourir le tableau
 	  private int j =1; //parcourir le tableau de Jul
 	  private int vit =0;
-	  private int animation;
+	  private int animation; //variable qui augmente constamment, remplace en quelque sorte le framerate
 	  private int soundChange =0;
 	  private String action = "Walk", mode = "Normal";
 	  private String tabMod[];
+	  private String anim = "Basic"; //type d'animation
 	  private int alpha = 127; // 50% transparece
 	  Color myColour; //initialisé dans l'éveil de Jul
 	  textClass lyric = new textClass(); //texte créé avec ma classe texte pour pouvoir faire des fonctions qui le manipule facilement
@@ -40,7 +41,7 @@ public class Panneau extends JPanel {
 	  Image[] tabImg = new Image[7]; //créer un tableau de 7 images
 	  Image[] tabImgA = new Image[20]; //tableau pour les actions du personnage
 	  Image[] tabImgJul = new Image[10];
-	  Image Simon, Simon2, Antoine, Rominou, JulBack;
+	  Image Simon, Simon2, Antoine, Rominou, JulBack, wojtek;
 	  
 	  //création sons
 	  SimpleAudioPlayer JulPlayerJ;
@@ -56,6 +57,10 @@ public class Panneau extends JPanel {
 		public int getVit() {
 		return vit;
 	}
+		
+		public void setAnim(String anima) {
+			this.anim = anima;
+		}
 
 		public void setTabMode (String[] tabMod2) {
 			this.tabMod = tabMod2;
@@ -160,6 +165,9 @@ public class Panneau extends JPanel {
     infoDev(g);
     
     shizuo(g);
+    if (mode == "QTE") {
+    	QTE(g);
+    }
     ChangeSound(soundChange);
    
   }               
@@ -302,6 +310,7 @@ public class Panneau extends JPanel {
 		    g.drawString("Presser V pour afficher la liste des modes.",this.getWidth()/4, this.getHeight()/8+400);
 		    g.drawString("Presser I pour afficher l'évolution des variables.",this.getWidth()/4, this.getHeight()/8+450);
 		    g.drawString("Presser H pour activer les évènements à maintenir (il n'y en a que rarement).",this.getWidth()/6, this.getHeight()/8+500);
+		    g.drawString("Presser A pour changer la méthode de gestion de l'animation (Basic, crazy ou push)",this.getWidth()/6, this.getHeight()/8+550);
 		    
 		    
 	  }
@@ -423,7 +432,7 @@ public class Panneau extends JPanel {
 		  if (animation%10 ==0) {
 		  i++;
 		  }
-	       if (i>5) {i=0; }
+	       if (i>5) {i=0; if (anim=="Basic") {action ="Walk"; } } //lorsque l'animation est finie, en mode basic on l'arrête 
 	      //image : drawImage(Image img, int x, int y, int width, int height, Observer obs)
 	       if (side == true) {
 	    	   g.drawImage(tabImgA[i], shiX, this.getHeight()/3+40,600,500, this);
@@ -445,7 +454,7 @@ public class Panneau extends JPanel {
 		  if (animation%10 ==0) {
 		  i++;
 		  }
-	       if (i>5) {i=0; }
+	       if (i>5) {i=0; if (anim=="Basic") {action ="Walk"; } } //lorsque l'animation est finie, en mode basic on l'arrête 
 	      //image : drawImage(Image img, int x, int y, int width, int height, Observer obs)
 	       if (side == true) {
 	    	   g.drawImage(tabImgA[i+5], shiX, this.getHeight()/3+40,600,500, this);
@@ -459,7 +468,7 @@ public class Panneau extends JPanel {
 		  if (animation%15 ==0) {
 		  i++;
 		  }
-	       if (i>4) {i=0; }
+	       if (i>4) {i=0; if (anim=="Basic") {action ="Walk"; } } //lorsque l'animation est finie, en mode basic on l'arrête 
 	      //image : drawImage(Image img, int x, int y, int width, int height, Observer obs)
 	       if (side == true) {
 	    	   g.drawImage(tabImgA[i+12], shiX, this.getHeight()/3+40,600,500, this);
@@ -513,6 +522,7 @@ public class Panneau extends JPanel {
 		  Antoine = ImageIO.read(new File("Images/Shizuo/Antoine_mod.png"));
 		  Rominou = ImageIO.read(new File("Images/Shizuo/Rominou.png"));
 		  JulBack = ImageIO.read(new File("Images/Jul/jul_background.png"));
+		  wojtek = ImageIO.read(new File("Images/wojtek.png"));
 		  
 		  //Jul
 		  tabImgJul[0] = ImageIO.read(new File("Images/Jul/jul2-2.png"));
@@ -548,10 +558,14 @@ public class Panneau extends JPanel {
   private void infoDev (Graphics g) { //affichage graphique de l'évolution des variables
 	  if (mode =="infos") {
 		  g.setColor(Color.black);
-	  g.drawString("ANIMATION :"+animation%15+" vit "+vit+" shiX"+shiX,this.getWidth()/6, this.getHeight()/8+250);
+	  g.drawString("ANIMATION :"+animation%15+" vit "+vit+" shiX"+shiX + " action " + action +" anim " + anim,this.getWidth()/6, this.getHeight()/8+250);
 	  g.drawString("SOUNDCHANGE "+ soundChange +" MODE :" + mode + " TEMPS musique "+ audioPlayer.time() + " JUL :" + JulPlayerJ.time(),this.getWidth()/6, this.getHeight()/8+100);
 	  
 	  }
+  }
+  
+  private void QTE (Graphics g) { //apparition de Wojtek, extraits sonores, touches à appuyer sinon game over animation mort
+	  g.drawImage(wojtek, 400, 130, this);
   }
   
   private void textJul(Graphics g) {

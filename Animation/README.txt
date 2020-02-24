@@ -12,3 +12,9 @@ Possibilité de stocker les images, sons, vidéos, bibliothèques... sur un autre s
 
 La version actuelle demande d'avoir la version de Java adéquate ou de recompiler le code, si l'on veut un executable portable 
 il faudrait fournir le JRE avec !
+
+(runtime.rar -> 89 mo !)
+
+Sinon on peut télecharger le jdk13.0.1 ici : https://www.oracle.com/java/technologies/javase/jdk13-archive-downloads.html
+
+Et placer le fichier jdk-13.0.1 (de base installé dans C/Programmes/Java) dans le même dossier que l'executable et sous le nom de "runtime".

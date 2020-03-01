@@ -21,6 +21,7 @@ public class Panneau extends JPanel {
 	  private int posX = -50;
 	  private int posY = -50;
 	  private int shiX = 0;
+	  private int shiY = 320;
 	  private int bug =0; //pour faire des réactions marrantes avec le fond
 	  private boolean once = true; //pour n'effectuer qu'une fois l'initialisation
 	  private boolean side = true; //pour choisir dans quel sens il va, true = à droite et false = gauche
@@ -34,14 +35,16 @@ public class Panneau extends JPanel {
 	  private String tabMod[];
 	  private String anim = "Basic"; //type d'animation
 	  private int alpha = 127; // 50% transparece
+	  private int vitanim =10; //vitesse des animations
+	  //private boolean endAct;
 	  Color myColour; //initialisé dans l'éveil de Jul
 	  textClass lyric = new textClass(); //texte créé avec ma classe texte pour pouvoir faire des fonctions qui le manipule facilement
 	  
 	  //déclaration des images
-	  Image[] tabImg = new Image[7]; //créer un tableau de 7 images
+	  Image[] tabImg = new Image[20]; //créer un tableau de 7 images
 	  Image[] tabImgA = new Image[20]; //tableau pour les actions du personnage
 	  Image[] tabImgJul = new Image[10];
-	  Image Simon, Simon2, Antoine, Rominou, JulBack, wojtek;
+	  Image Simon, Simon2, Antoine, Rominou, JulBack, wojtek, Stryker;
 	  
 	  //création sons
 	  SimpleAudioPlayer JulPlayerJ;
@@ -86,9 +89,15 @@ public class Panneau extends JPanel {
 			this.mode = mode;
 		}
 
+		public void setShiY(int ordonne) {
+			shiY = ordonne;
+		}
+		
 	public void setVit(int vit) {
 		this.vit = vit;
 	}
+	
+	public void setVitanim(int vitanim) {this.vitanim=vitanim;}
 
 		public void setPosX(int posX) {
 			this.posX = posX;
@@ -163,8 +172,10 @@ public class Panneau extends JPanel {
     }
     
     infoDev(g);
-    
     shizuo(g);
+    if (mode =="Bizarre") {
+    Stryker(g);
+    }
     if (mode == "QTE") {
     	QTE(g);
     }
@@ -311,8 +322,7 @@ public class Panneau extends JPanel {
 		    g.drawString("Presser I pour afficher l'évolution des variables.",this.getWidth()/4, this.getHeight()/8+450);
 		    g.drawString("Presser H pour activer les évènements à maintenir (il n'y en a que rarement).",this.getWidth()/6, this.getHeight()/8+500);
 		    g.drawString("Presser A pour changer la méthode de gestion de l'animation (Basic, crazy ou push)",this.getWidth()/6, this.getHeight()/8+550);
-		    
-		    
+		    g.drawString("Presser X pour accélerer les animations et W pour les ralentir.",this.getWidth()/4, this.getHeight()/8+600);  
 	  }
 	  
 	  else if (mode =="ListeMod") {
@@ -343,25 +353,26 @@ public class Panneau extends JPanel {
 	  //boucle d'animation du personnage
 	  
 	  if (action=="Walk" && mode != "Bizarre") { //en normal, la vitesse doit être constante (-vit) et l'animation aussi
-	  if (animation%20 ==1) {
+		  
+	  if (animation%(vitanim*2) ==1 ) {
 	  i++;
 	  }
        if (i>6) {i=1; }
-		  if(vit ==0) {
+		  if(vit ==0) { //deux intérets ! déjà, ne pas déclencher l'animation si on ne marche pas et surtout, dès qu'on ne marche plus on se remet en pose
 			  i=0;
 		  }
 		       if (i>tabImg.length) {i=0;}
 		      //image : drawImage(Image img, int x, int y, int width, int height, Observer obs)
 		       if (side == true) {
-		    	   g.drawImage(tabImg[i], shiX, this.getHeight()/3+40,600,500, this);
+		    	   g.drawImage(tabImg[i], shiX, shiY,600,500, this);
 		    	   if (mode=="Simon") {
-		    		   g.drawImage(Simon, shiX, this.getHeight()/3+40,600,500, this);
+		    		   g.drawImage(Simon, shiX, shiY,600,500, this);
 		    	   }
 		    	   else if (mode == "Antoine") {
-		    		   g.drawImage(Antoine, shiX, this.getHeight()/3+40,600,500, this);
+		    		   g.drawImage(Antoine, shiX, shiY,600,500, this);
 		    	   }
 		    	   else if (mode == "Rominou") {
-		    		   g.drawImage(Rominou, shiX, this.getHeight()/3+40,600,500, this);
+		    		   g.drawImage(Rominou, shiX, shiY,600,500, this);
 		    	   }
 		    	   else if (JulPlayerJ.isPlaying() == true) { //Jul animation avec la musique jdvc
 		    		   if (JulPlayerJ.time() > 11000000 ) { //moment où il commence à parler
@@ -370,25 +381,25 @@ public class Panneau extends JPanel {
 		    				  }
 		    		   }
 		    			       if (j>4) {j=1; }
-		    		   g.drawImage(tabImgJul[j], shiX, this.getHeight()/3+40,600,500, this);
+		    		   g.drawImage(tabImgJul[j], shiX, shiY,600,500, this);
 		    	   }
 		    	   else if (JulPlayerB.isPlaying() == true) {// Jul statique et musique beuh
-		    		   g.drawImage(tabImgJul[0], shiX, this.getHeight()/3+40,600,500, this);
+		    		   g.drawImage(tabImgJul[0], shiX, shiY,600,500, this);
 		    		   g.setColor(myColour);
 		    		   g.fillRect(0, 0, this.getWidth(), this.getHeight() );
 		    		   
 		    	   }
 		       }
 		       else {
-		    	   g.drawImage(tabImg[i], shiX+600, this.getHeight()/3+40,-600,500, this);
+		    	   g.drawImage(tabImg[i], shiX+600, shiY,-600,500, this);
 		    	   if (mode=="Simon") {
-		    		   g.drawImage(Simon, shiX+600, this.getHeight()/3+40,-600,500, this);
+		    		   g.drawImage(Simon, shiX+600, shiY,-600,500, this);
 		    	   }
 		    	   else if (mode =="Antoine") {
-		    		   g.drawImage(Antoine, shiX+600, this.getHeight()/3+40,-600,500, this);
+		    		   g.drawImage(Antoine, shiX+600, shiY,-600,500, this);
 		    	   }
 		    	   else if (mode =="Rominou") {
-		    		   g.drawImage(Rominou, shiX+600, this.getHeight()/3+40,-600,500, this);
+		    		   g.drawImage(Rominou, shiX+600, shiY,-600,500, this);
 		    	   }
 		    	   else if (JulPlayerJ.isPlaying() == true) { //Jul animation avec la musique jdvc
 		    		   if (JulPlayerJ.time() > 11000000 ) { //moment où il commence à parler
@@ -397,10 +408,10 @@ public class Panneau extends JPanel {
 		    				  }
 		    		   }
 		    			       if (j>4) {j=1; }
-		    		   g.drawImage(tabImgJul[j], shiX+600, this.getHeight()/3+40,-600,500, this);
+		    		   g.drawImage(tabImgJul[j], shiX+600, shiY,-600,500, this);
 		    	   }
 		    	   else if (JulPlayerB.isPlaying() == true) {// Jul statique et musique beuh
-		    		   g.drawImage(tabImgJul[0], shiX+600, this.getHeight()/3+40,-600,500, this);
+		    		   g.drawImage(tabImgJul[0], shiX+600, shiY,-600,500, this);
 		    		   g.setColor(myColour);
 		    		   g.fillRect(0, 0, this.getWidth(), this.getHeight() );
 		    	   }
@@ -421,62 +432,96 @@ public class Panneau extends JPanel {
 	       if (i>tabImg.length) {i=0;}
 	      //image : drawImage(Image img, int x, int y, int width, int height, Observer obs)
 	       if (side == true) {
-	    	   g.drawImage(tabImg[i], shiX, this.getHeight()/3+40,600,500, this);
+	    	   g.drawImage(tabImg[i], shiX, shiY,600,500, this);
 	       }
 	       else {
-	    	   g.drawImage(tabImg[i], shiX+600, this.getHeight()/3+40,-600,500, this);
+	    	   g.drawImage(tabImg[i], shiX+600, shiY,-600,500, this);
 	       }
 	  }
 	  
-	  else if (action == "kick") {
-		  if (animation%10 ==0) {
+	  else if (action == "kick" ) { 
+		  if (animation%vitanim ==0) {
 		  i++;
 		  }
-	       if (i>5) {i=0; if (anim=="Basic") {action ="Walk"; } } //lorsque l'animation est finie, en mode basic on l'arrête 
+	      
 	      //image : drawImage(Image img, int x, int y, int width, int height, Observer obs)
+	       
 	       if (side == true) {
-	    	   g.drawImage(tabImgA[i], shiX, this.getHeight()/3+40,600,500, this);
+	    	   g.drawImage(tabImgA[i], shiX, shiY,600,500, this);
 	    	   if (mode=="Simon") {
-	    		   g.drawImage(Simon2, shiX, this.getHeight()/3+40,600,500, this);
+	    		   g.drawImage(Simon2, shiX, shiY,600,500, this);
 	    	   }
 	       }
 	       else {
-	    	   g.drawImage(tabImgA[i], shiX+600, this.getHeight()/3+40,-600,500, this);
+	    	   g.drawImage(tabImgA[i], shiX+600, shiY,-600,500, this);
 	    	   if (mode=="Simon") {
-	    		   g.drawImage(Simon2, shiX+600, this.getHeight()/3+40,-600,500, this);
+	    		   g.drawImage(Simon2, shiX+600, shiY,-600,500, this);
 	    	   }
 	       }
-		  
-		  
+	       //en bas car sinon il commence à lever la jambe pour l'animation donner un coup de pied
+	       if (i>4) {i=0; if (anim=="Basic") {action ="Walk"; } } //lorsque l'animation est finie, en mode basic on l'arrête 
 	  }
 	  
 	  else if (action == "lamppost") {
-		  if (animation%10 ==0) {
+		  if (animation%vitanim ==0) {
 		  i++;
 		  }
 	       if (i>5) {i=0; if (anim=="Basic") {action ="Walk"; } } //lorsque l'animation est finie, en mode basic on l'arrête 
 	      //image : drawImage(Image img, int x, int y, int width, int height, Observer obs)
 	       if (side == true) {
-	    	   g.drawImage(tabImgA[i+5], shiX, this.getHeight()/3+40,600,500, this);
+	    	   g.drawImage(tabImgA[i+5], shiX, shiY,600,500, this);
 	       }
 	       else {
-	    	   g.drawImage(tabImgA[i+5], shiX+600, this.getHeight()/3+40,-600,500, this);
+	    	   g.drawImage(tabImgA[i+5], shiX+600, shiY,-600,500, this);
 	       }
 	  }
 	  
 	  else if (action == "provoc") {
-		  if (animation%15 ==0) {
+		  if (animation%(vitanim*1.5) ==0) {
 		  i++;
 		  }
 	       if (i>4) {i=0; if (anim=="Basic") {action ="Walk"; } } //lorsque l'animation est finie, en mode basic on l'arrête 
 	      //image : drawImage(Image img, int x, int y, int width, int height, Observer obs)
 	       if (side == true) {
-	    	   g.drawImage(tabImgA[i+12], shiX, this.getHeight()/3+40,600,500, this);
+	    	   g.drawImage(tabImgA[i+12], shiX, shiY,600,500, this);
 	       }
 	       else {
-	    	   g.drawImage(tabImgA[i+12], shiX+600, this.getHeight()/3+40,-600,500, this);
+	    	   g.drawImage(tabImgA[i+12], shiX+600, shiY,-600,500, this);
 		       }
 		  }
+	  
+	  else if (action == "Jump") {
+		  if (animation%vitanim ==0) {
+			  i++;
+			  }
+		  if (i <=3) {
+			  shiY-=9; //ordonne remonte 
+		  }
+		  else if (i>3 && i <8) {shiY+=9;}
+		       if (i>6) {i=0; if (anim=="Basic") {action ="Walk"; } } //lorsque l'animation est finie, en mode basic on l'arrête 
+		      //image : drawImage(Image img, int x, int y, int width, int height, Observer obs)
+		       if (side == true) {
+		    	   g.drawImage(tabImg[i+7], shiX, shiY,600,500, this);
+		       }
+		       else {
+		    	   g.drawImage(tabImg[i+7], shiX+600, shiY,-600,500, this);
+		       }
+	  }
+	  
+	  else if (action == "Low") {
+		  shiY +=1;
+		  if (animation%vitanim ==0) {
+			  i++;
+			  }
+		       if (i>3) {i=0; if (anim=="Basic") {action ="Walk"; } } //lorsque l'animation est finie, en mode basic on l'arrête 
+		      //image : drawImage(Image img, int x, int y, int width, int height, Observer obs)
+		       if (side == true) {
+		    	   g.drawImage(tabImg[i+13], shiX, shiY,600,500, this);
+		       }
+		       else {
+		    	   g.drawImage(tabImg[i+13], shiX+600, shiY,-600,500, this);
+		       }
+	  }
 
 	  }
   }
@@ -493,6 +538,21 @@ public class Panneau extends JPanel {
 		  tabImg[4] = ImageIO.read(new File("Images/Shizuo/Walk/Hiw400_03.png"));
 		  tabImg[5] = ImageIO.read(new File("Images/Shizuo/Walk/Hiw400_04.png"));
 		  tabImg[6] = ImageIO.read(new File("Images/Shizuo/Walk/Hiw400_05.png"));
+		  
+		  //Jump
+		  tabImg[7] = ImageIO.read(new File("Images/Shizuo/Jump/Hiw200_00.png"));
+		  tabImg[8] = ImageIO.read(new File("Images/Shizuo/Jump/Hiw200_01.png"));
+		  tabImg[9] = ImageIO.read(new File("Images/Shizuo/Jump/Hiw200_02.png"));
+		  tabImg[10] = ImageIO.read(new File("Images/Shizuo/Jump/Hiw200_03.png"));
+		  tabImg[11] = ImageIO.read(new File("Images/Shizuo/Jump/Hiw200_04.png"));
+		  tabImg[12] = ImageIO.read(new File("Images/Shizuo/Jump/Hiw200_05.png"));
+		  tabImg[13] = ImageIO.read(new File("Images/Shizuo/Jump/Hiw200_06.png"));
+		  
+		  //Low
+		  tabImg[14] = ImageIO.read(new File("Images/Shizuo/lowStance/Hiw100_00.png"));
+		  tabImg[15] = ImageIO.read(new File("Images/Shizuo/lowStance/Hiw100_01.png"));
+		  tabImg[16] = ImageIO.read(new File("Images/Shizuo/lowStance/Hiw100_02.png"));
+		  tabImg[17] = ImageIO.read(new File("Images/Shizuo/lowStance/Hiw100_03.png"));
 		  
 		  //ataques, de 0 à 5 : kick, de 6 à 11 : coup de lampadaire, 12 à 16 : provocation 
 		  //kick
@@ -523,6 +583,7 @@ public class Panneau extends JPanel {
 		  Rominou = ImageIO.read(new File("Images/Shizuo/Rominou.png"));
 		  JulBack = ImageIO.read(new File("Images/Jul/jul_background.png"));
 		  wojtek = ImageIO.read(new File("Images/wojtek.png"));
+		  Stryker = ImageIO.read(new File("Images/Stryker.png"));
 		  
 		  //Jul
 		  tabImgJul[0] = ImageIO.read(new File("Images/Jul/jul2-2.png"));
@@ -558,7 +619,7 @@ public class Panneau extends JPanel {
   private void infoDev (Graphics g) { //affichage graphique de l'évolution des variables
 	  if (mode =="infos") {
 		  g.setColor(Color.black);
-	  g.drawString("ANIMATION :"+animation%15+" vit "+vit+" shiX"+shiX + " action " + action +" anim " + anim,this.getWidth()/6, this.getHeight()/8+250);
+	  g.drawString("ANIMATION :"+animation%15+" vit "+vit+" shiX"+shiX + " ShiY "+ shiY+ " action " + action +" anim " + anim + " i " + i + " vitanim " + vitanim,this.getWidth()/6, this.getHeight()/8+250);
 	  g.drawString("SOUNDCHANGE "+ soundChange +" MODE :" + mode + " TEMPS musique "+ audioPlayer.time() + " JUL :" + JulPlayerJ.time(),this.getWidth()/6, this.getHeight()/8+100);
 	  
 	  }
@@ -566,6 +627,20 @@ public class Panneau extends JPanel {
   
   private void QTE (Graphics g) { //apparition de Wojtek, extraits sonores, touches à appuyer sinon game over animation mort
 	  g.drawImage(wojtek, 400, 130, this);
+	  lyric.come(g, "Wallah un test !!!", 100, 300, 10, 200, 0, 40, 4);
+	  lyric.mouvTest(g, "gipjoenr", 30, 100, 40, 200, 100, 30);
+  }
+  
+  private void Stryker(Graphics g) {
+	if (action == "Walk") { //img, rectangle où on l'affiche dans le panneau, rectangle des pixels que l'on prend de l'image
+	  g.drawImage(Stryker, 700, 400, 900, 800, 67, 12, 105, 118, this);
+	}
+	 
+	  if (action=="kick") {
+		  g.drawImage(Stryker, 700, 400, 900, 800, 208, 751, 295, 852, this);
+	  }
+	  
+	  
   }
   
   private void textJul(Graphics g) {

@@ -9,16 +9,19 @@ public class ObjKeyListener implements KeyListener {
 	  private int vitS =0;
 	  private int speed =1;
 	  private int bug =0;
+	  private int vitanim = 10; //vitesse des animations
 	  private boolean Side;
 	  private boolean eventHold = false;
 	  private String action = "Walk";
 	  private String mode = "Normal";
-	  private String anim = "Basic";
+	  private String anim = "Push";
+	  boolean isKeyPressed = false;
+	  //private boolean endAct = false;//pour arrêter l'action en mode Basic
 	  //tableaux de Modes et d'Animations
 	  private int iterator =0; //pour parcourir les tableaux
 
 	private String tabMod[] = {"Normal", "Bizarre", "Simon", "Antoine", "Rominou", "Jul", "QTE"};
-	 private String tabAnim[] = {"Basic", "Crazy", "Push"};
+	 private String tabAnim[] = {"Push", "Crazy", "Basic"};
 	  
 	  //augmente un tableau et revient à 0 si la valeur dépasse la taille du tableau
 	  public void tabUp(String tab[]) {
@@ -27,6 +30,7 @@ public class ObjKeyListener implements KeyListener {
 	  }
 	  
 	  public int getBug() {return bug;}
+	  public int getVitanim() {return vitanim;}
 	  
 		public boolean isEventHold() {
 			return eventHold;
@@ -38,6 +42,10 @@ public class ObjKeyListener implements KeyListener {
 		}
 	  public String getAnim() {
 		  return anim;
+	  }
+	  
+	  public boolean isIsKeyPressed() {
+		  return isKeyPressed;
 	  }
 		
 	  public String[] getTabMod() {
@@ -90,6 +98,7 @@ public class ObjKeyListener implements KeyListener {
 	    }
 	 
 	    public void keyPressed(KeyEvent e) {
+	    	isKeyPressed = true;
 	        label.setText("Touche pressée : " + e.getKeyCode() + 
 	                " (" + e.getKeyChar() + ")" +"shix vaut :" +shiX );
 	                if (e.getKeyCode()==65) {
@@ -130,6 +139,7 @@ public class ObjKeyListener implements KeyListener {
 	                }
 	                else if (e.getKeyCode()==KeyEvent.VK_K) {
 	                	action = "kick";
+	                	//endAct=false;
 	                }
 	                else if (e.getKeyCode()==KeyEvent.VK_L) {
 	                	action = "lamppost";
@@ -143,11 +153,27 @@ public class ObjKeyListener implements KeyListener {
 	                else if(e.getKeyCode()==KeyEvent.VK_H) {
 	                	eventHold = true;
 	                }
+	                else if (e.getKeyCode() == KeyEvent.VK_W) {
+	                	vitanim +=1;
+	                }
+	                else if(e.getKeyCode()==KeyEvent.VK_X) {
+	                	vitanim-=1; if (vitanim <1) {vitanim =1;}
+	                }
+	                else if (e.getKeyCode()==38) { //flèche du haut
+	                	action = "Jump";
+	                }
+	                else if (e.getKeyCode()==40) { //flèche du bas
+	                	action = "Low";	
+	                }
+	                
 	                else { vitS=0;
 	                action = "Walk";}
 	    }
 	 
 	    public void keyReleased(KeyEvent e) {
+	    	if (anim=="Basic") { //en mode basic, lorsque l'on a relaché
+	    		//la touche on arrête de récupérer tout le temps les infos conservées de keyPressed pour ne pas mettre les animations en boucle
+	    	isKeyPressed = false;}
 	        label.setText("Touche relâchée : " + e.getKeyCode() +
 	                " (" + e.getKeyChar() + ")" +"VitS vaut : "+ vitS);
 	        
@@ -159,7 +185,7 @@ public class ObjKeyListener implements KeyListener {
             	vitS =0;
             }
             else if (e.getKeyCode()==KeyEvent.VK_K) { //après avoir fini une action on retrouve notre position de base
-            	if (getAnim()=="Push") { //en mode crazy animation en boucle
+            	if (getAnim()=="Push" ) { //en mode crazy animation en boucle
             	action = "Walk";}
             }
             else if (e.getKeyCode()==KeyEvent.VK_L) {
@@ -191,7 +217,7 @@ public class ObjKeyListener implements KeyListener {
             	tabUp(tabAnim);
             	anim = tabAnim[iterator]; //la gestion de l'animation devient le texte présent dans tabAnim
             }
-	        
+            
 	    }
 	 
 	    public void keyTyped(KeyEvent e) {

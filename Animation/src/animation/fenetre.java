@@ -1,17 +1,11 @@
 package animation;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.JLabel;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 
-import java.io.File;
-//pour le son
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip; class fenetre extends JFrame { //fille de JFrame qui récupère de quoi faire une fenêtre
+ class fenetre extends JFrame { //fille de JFrame qui récupère de quoi faire une fenêtre
 
     private Panneau pan = new Panneau();
 	private boolean run = true;
@@ -92,12 +86,13 @@ import javax.sound.sampled.Clip; class fenetre extends JFrame { //fille de JFram
 	      y++;
 	      vitS =truc.getVitS();
 		  shiX = truc.getShiX();
+		  //pan.setShiY(truc.getShiY());
 	      
 	      pan.setPosX(x);
 	      pan.setPosY(y);
 	      pan.setShiX(shiX);
 	      pan.setVit(vitS);
-	      
+	      if (truc.isIsKeyPressed()==true) { //trop bien ça marche ! voir le commentaire dans keyReleased
 	      pan.setSide(truc.isSide() ); //pour le boolean coté
 	      pan.setAction(truc.getAction() ); //pour le String action
 	      pan.setMode(truc.getMode() ); //pour le String mode
@@ -105,6 +100,9 @@ import javax.sound.sampled.Clip; class fenetre extends JFrame { //fille de JFram
 	      pan.setTabMode(truc.getTabMod() );
 	      pan.setEventHold(truc.isEventHold() );
 	      pan.setAnim(truc.getAnim()); //pour le mode d'animaton
+	      pan.setVitanim(truc.getVitanim() );
+	      }
+	      
 	      pan.repaint();  
 	      try {
 	        Thread.sleep(10);

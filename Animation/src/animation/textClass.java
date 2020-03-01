@@ -47,6 +47,66 @@ public void appear(Graphics g, String text, int abscisse, int ordonne, int size,
 		}
 	}
 
+	public void come(Graphics g,String text, int abscisse, int ordonne, int size,int abscFin, int ordoFin, int sizeFin, int vitesse) {
+		//if (vitesse <=0) {vitesse =1;}
+		g.setColor(myColour);
+		//while(abscisse != abscFin && ordonne != ordoFin) { //tant que le déplacement n'est pas fini
+
+			if (abscisse - abscFin <0) { //l'abscisse se rapproche de sa destination
+				abscisse +=vitesse;
+			}
+			else {
+				abscisse-=vitesse;
+			}
+			if (ordonne - ordoFin <0) {
+				ordonne +=vitesse;
+			}
+			else {
+				ordonne-=vitesse;
+			}
+			if (size - sizeFin <0) {
+				size +=vitesse;
+			}
+			else {
+				size-=vitesse;
+			}
+			font = new Font("Verdana", Font.BOLD, size);
+			g.setFont(font);
+			g.drawString(text, abscisse, ordonne);
+		//}
+		
+	}
+	
+	public void mouvTest(Graphics g,String text, int abscisse, int ordonne, int size,int abscFin, int ordoFin, int sizeFin) {
+		//if (vitesse <=0) {vitesse =1;}
+		g.setColor(myColour);
+		//while(abscisse != abscFin && ordonne != ordoFin) { //tant que le déplacement n'est pas fini
+		font = new Font("Verdana", Font.BOLD, size);
+		g.setFont(font);
+			if (abscisse - abscFin <0) { //l'abscisse se rapproche de sa destination
+				abscisse +=1;
+			}
+			else {
+				abscisse-=1;
+			}
+			if (ordonne - ordoFin <0) {
+				ordonne +=1;
+			}
+			else {
+				ordonne-=1;
+			}
+			if (size - sizeFin <0) {
+				size +=1;
+			}
+			else {
+				size-=1;
+			}
+			g.drawString(abscisse + " et aussi l'ordonné : " + ordonne, 300, 300);
+			g.drawString(text, abscisse, ordonne);
+		//}
+		
+	}
+
 	public void countTemps() {
 		if (start ==true) {
 //System.out.println("Wesh alors\n\n\n\n\n\n\n\n\n");

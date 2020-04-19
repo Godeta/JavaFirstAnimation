@@ -92,6 +92,7 @@ import java.awt.BorderLayout;
 	      pan.setPosY(y);
 	      pan.setShiX(shiX);
 	      pan.setVit(vitS);
+	      pan.setBack(truc.getBack());
 	      if (truc.isIsKeyPressed()==true) { //trop bien ça marche ! voir le commentaire dans keyReleased
 	      pan.setSide(truc.isSide() ); //pour le boolean coté
 	      pan.setAction(truc.getAction() ); //pour le String action

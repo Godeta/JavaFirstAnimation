@@ -36,6 +36,7 @@ public class Panneau extends JPanel {
 	  private String anim = "Basic"; //type d'animation
 	  private int alpha = 127; // 50% transparece
 	  private int vitanim =10; //vitesse des animations
+	  private int back =0; //image de fond
 	  //private boolean endAct;
 	  Color myColour; //initialisé dans l'éveil de Jul
 	  textClass lyric = new textClass(); //texte créé avec ma classe texte pour pouvoir faire des fonctions qui le manipule facilement
@@ -60,6 +61,7 @@ public class Panneau extends JPanel {
 		public int getVit() {
 		return vit;
 	}
+		public void setBack(int back) {this.back = back;}
 		
 		public void setAnim(String anima) {
 			this.anim = anima;
@@ -241,15 +243,23 @@ public class Panneau extends JPanel {
   private void background(Graphics g) {
 	  
 	    //image : drawImage(Image img, int x, int y, int width, int height, Observer obs)
-	    try {
-	    	Image img = ImageIO.read(new File("Images/three_cool_fight_background.gif"));
+	   
+	    	//Image img = ImageIO.read(new File("Images/three_cool_fight_background.gif"));
 	    	//initialisation des images dans la classe
 	           
 	      //Pour une image de fond, prend toute la taille de la fenêtre
 	      //g.drawImage(img, bug*posX, bug*posY, this.getWidth(), this.getHeight(), this);
-	    	//pour afficher un gif il faut utiliser ImageIcon !
-	    	g.drawImage(new ImageIcon("Images/three_cool_fight_background.gif").getImage(), bug*posX, bug*posY,this.getWidth(), this.getHeight(), this);
-	     
+	    	
+	  //pour afficher un gif il faut utiliser ImageIcon !
+	  if (back ==0) {
+	  g.drawImage(new ImageIcon("Images/three_cool_fight_background.gif").getImage(), bug*posX, bug*posY,this.getWidth(), this.getHeight(), this);
+	  }
+	  else if (back==1) {
+		  g.drawImage(new ImageIcon("Images/arena_cool_background.gif").getImage(), bug*posX, bug*posY,this.getWidth(), this.getHeight(), this);
+	  }
+	  else if (back==2) {
+		  g.drawImage(new ImageIcon("Images/background3.gif").getImage(), bug*posX, bug*posY,this.getWidth(), this.getHeight(), this);
+	  }
 	    	
 	      /*Image icon = new ImageIcon(getClass().getResource("/Images/three_cool_fight_background.gif")).getImage();
 	      g.drawImage(icon, 0, 0, this.getWidth(), this.getHeight(), this);
@@ -258,10 +268,6 @@ public class Panneau extends JPanel {
 	      //image fixe, taille de l'image initiale
 	      //g.drawImage(img, 0, 0, this);
 
-	    } catch (IOException e) {
-	      e.printStackTrace();
-	    }  
-	  
   }
   
   //dégradé pour fair un arc en ciel
@@ -299,7 +305,7 @@ public class Panneau extends JPanel {
   
   //personnage Shizuo
   private void shizuo(Graphics g) {
-
+	  
 	  //afficher les touches
 	  if (mode == "Control") {
 		   //x1, y1, width, height

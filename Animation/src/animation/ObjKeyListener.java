@@ -19,6 +19,7 @@ public class ObjKeyListener implements KeyListener {
 	  //private boolean endAct = false;//pour arrêter l'action en mode Basic
 	  //tableaux de Modes et d'Animations
 	  private int iterator =0; //pour parcourir les tableaux
+	  private int back =0;
 
 	private String tabMod[] = {"Normal", "Bizarre", "Simon", "Antoine", "Rominou", "Jul", "QTE"};
 	 private String tabAnim[] = {"Push", "Crazy", "Basic"};
@@ -28,7 +29,7 @@ public class ObjKeyListener implements KeyListener {
 		  iterator++;
 		  if (iterator>tab.length-1) {iterator =0;}
 	  }
-	  
+	  public int getBack() {return back;}
 	  public int getBug() {return bug;}
 	  public int getVitanim() {return vitanim;}
 	  
@@ -98,6 +99,17 @@ public class ObjKeyListener implements KeyListener {
 	    }
 	 
 	    public void keyPressed(KeyEvent e) {
+	    	//si il sort de l'écran
+	    	if(shiX>1300) { //à droite
+	  		  shiX =-165;
+	  		  back++;
+	  		  if(back>2) {back=0;}
+	  	  }
+	  	  else if (shiX<-390) { //à gauche
+	  		  shiX =1200;
+	  		  back--; //changement d'image de fond
+	  		  if(back<0) {back=2;}
+	  	  }
 	    	isKeyPressed = true;
 	        label.setText("Touche pressée : " + e.getKeyCode() + 
 	                " (" + e.getKeyChar() + ")" +"shix vaut :" +shiX );

@@ -1,13 +1,11 @@
 package animation;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.JLabel;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
- 
-public class fenetre extends JFrame { //fille de JFrame qui récupère de quoi faire une fenêtre
+
+ class fenetre extends JFrame { //fille de JFrame qui récupère de quoi faire une fenêtre
 
     private Panneau pan = new Panneau();
 	private boolean run = true;
@@ -26,7 +24,7 @@ public class fenetre extends JFrame { //fille de JFrame qui récupère de quoi fai
     //constructeur
   public fenetre(){ 
       //titre
-    this.setTitle("Ma première fenêtre Java");
+    this.setTitle("Projet incroyable made by Arnaud de ouf qui tue avec des rayons lasers et tout et tout");
     //taille
     this.setSize(400, 500);
     //emplacement, (x,y) null = au centre
@@ -58,7 +56,7 @@ public class fenetre extends JFrame { //fille de JFrame qui récupère de quoi fai
 
   //constructeur si on donne la taille
   public fenetre(int width, int height){ 
-    this.setTitle("Ma première fenêtre Java");
+    this.setTitle("Projet incroyable made by Arnaud de ouf qui tue avec des rayons lasers et tout et tout");
     this.setSize(width, height);
     this.setLocationRelativeTo(null);
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);             
@@ -88,13 +86,23 @@ public class fenetre extends JFrame { //fille de JFrame qui récupère de quoi fai
 	      y++;
 	      vitS =truc.getVitS();
 		  shiX = truc.getShiX();
+		  //pan.setShiY(truc.getShiY());
 	      
 	      pan.setPosX(x);
 	      pan.setPosY(y);
 	      pan.setShiX(shiX);
 	      pan.setVit(vitS);
+	      if (truc.isIsKeyPressed()==true) { //trop bien ça marche ! voir le commentaire dans keyReleased
+	      pan.setSide(truc.isSide() ); //pour le boolean coté
+	      pan.setAction(truc.getAction() ); //pour le String action
+	      pan.setMode(truc.getMode() ); //pour le String mode
+	      pan.setBug(truc.getBug() );
+	      pan.setTabMode(truc.getTabMod() );
+	      pan.setEventHold(truc.isEventHold() );
+	      pan.setAnim(truc.getAnim()); //pour le mode d'animaton
+	      pan.setVitanim(truc.getVitanim() );
+	      }
 	      
-	      pan.setSide(truc.isSide() );
 	      pan.repaint();  
 	      try {
 	        Thread.sleep(10);
@@ -112,4 +120,6 @@ public class fenetre extends JFrame { //fille de JFrame qui récupère de quoi fai
 	    }
 	  } 
 
+
+  
 }

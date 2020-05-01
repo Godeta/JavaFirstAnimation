@@ -1,13 +1,13 @@
 # JavaFirstAnimation
-Une petite animation d'un personnage en Java, avec des modes, différentes actions, musiques, fonds...
+Une petite animation d'un personnage en Java, avec des modes, diffÃ©rentes actions, musiques, fonds...
 
 ### Git Installation
-```
-# télecharger la dernière release pour avoir une version fonctionnelle + le jre nécessaire pour faire fonctionner le code
 
-# Sinon cloner le dépot et installer le jre adéquat
+# tÃ©lecharger la derniÃ¨re release pour avoir une version fonctionnelle + le jre nÃ©cessaire pour faire fonctionner le code
+
+# Sinon cloner le dÃ©pot et installer le jre adÃ©quat
 
 
-### Petit aperçu du projet :
+### Petit aperÃ§u du projet :
 
 ![](affichage.gif)
